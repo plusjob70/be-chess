@@ -2,7 +2,9 @@
 소프티어 부트캠프 2기 체스 프로젝트
 
 # Study Plan
-- [ ] 체스 규칙 익히기
+- [X] 체스 규칙 익히기
+  - [X] [체스 규칙 숙지](https://ko.wikipedia.org/wiki/체스_규칙)
+  - [X] [체스 게임 체험](https://www.chess.com/ko/play/computer)
 - [ ] 미션 1 - 폰 생성
 - [ ] 미션 2 - 체스판 생성
 - [ ] 미션 3 - 체스판 초기화
