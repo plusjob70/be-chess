@@ -10,11 +10,13 @@ class PawnTest {
     @Test
     @DisplayName("폰이 생성되어야 한다.")
     public void create() {
-        Pawn pawn1 = new Pawn("white");
-        assertThat(pawn1.getColor()).isEqualTo("white");
+        verifyPawn("white");
+        verifyPawn("black");
+    }
 
-        Pawn pawn2 = new Pawn("black");
-        assertThat(pawn2.getColor()).isEqualTo("black");
+    private void verifyPawn(final String color) {
+        Pawn pawn = new Pawn(color);
+        assertThat(pawn.getColor()).isEqualTo(color);
     }
 
 }
