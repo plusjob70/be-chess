@@ -1,4 +1,4 @@
-package softeer2nd;
+package softeer2nd.chess.pieces;
 
 public class Pawn {
 
