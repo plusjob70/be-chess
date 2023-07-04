@@ -20,8 +20,8 @@ class BoardTest {
     @Test
     @DisplayName("보드에 Pawn을 추가한다.")
     public void addPawn() {
-        verifyAdd(new Pawn(Pawn.WHITE_COLOR), 1, 0);
-        verifyAdd(new Pawn(Pawn.BLACK_COLOR), 2, 1);
+        verifyAdd(new Pawn(Pawn.WHITE_COLOR), 1, "a8");
+        verifyAdd(new Pawn(Pawn.BLACK_COLOR), 2, "b8");
     }
 
     @Test
@@ -36,12 +36,20 @@ class BoardTest {
     public void findPawnOutOfBounds() {
         board.add(new Pawn());
 
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> board.findPawn(10)
+        assertThrows(IllegalArgumentException.class,
+                () -> board.findPawn("a1")
         );
     }
 
-    private void verifyAdd(Pawn pawn, int expectedBoardSize, int pawnIndex) {
+    @Test
+    @DisplayName("보드 초기화 후에 흰색, 검은색 Pawn이 각각 8개씩 있다.")
+    public void initialize() throws Exception {
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
+    }
+
+    private void verifyAdd(Pawn pawn, int expectedBoardSize, String pawnIndex) {
         board.add(pawn);
         assertEquals(expectedBoardSize, board.size());
         assertEquals(pawn, board.findPawn(pawnIndex));
