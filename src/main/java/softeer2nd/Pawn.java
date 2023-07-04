@@ -1,4 +1,4 @@
-package softeer2nd.domain;
+package softeer2nd;
 
 public class Pawn {
 
