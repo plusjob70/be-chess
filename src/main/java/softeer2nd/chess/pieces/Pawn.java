@@ -11,8 +11,7 @@ public class Pawn {
     private final char representation;
 
     public Pawn() {
-        this.color = WHITE_COLOR;
-        this.representation = WHITE_REPRESENTATION;
+        this(WHITE_COLOR);
     }
 
     public Pawn(String color) {
