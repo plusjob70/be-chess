@@ -1,7 +1,7 @@
 # be-chess
 소프티어 부트캠프 2기 체스 프로젝트
 
-# Study Plan
+# Check List
 - [X] 체스 규칙 익히기
   - [X] [체스 규칙 숙지](https://ko.wikipedia.org/wiki/체스_규칙)
   - [X] [체스 게임 체험](https://www.chess.com/ko/play/computer)
@@ -10,7 +10,7 @@
   - [X] 2.Pawn 클래스 구현
   - [X] 3.리팩토링
 - [ ] 미션 2 - 체스판 생성
-  - [ ] Pawn 클래스 변경 
+  - [X] Pawn 클래스 변경 
   - [ ] BoardTest 추가
   - [ ] Board 객체 구현
   - [ ] 패키지 분리 
