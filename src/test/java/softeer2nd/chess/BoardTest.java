@@ -49,6 +49,19 @@ class BoardTest {
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
+    @Test
+    @DisplayName("보드를 출력한다.")
+    public void printBoard() {
+        System.out.println(board.print());
+    }
+
+    @Test
+    @DisplayName("보드 초기화 후에 보드를 출력한다.")
+    public void printBoardAfterInitialize() {
+        board.initialize();
+        System.out.println(board.print());
+    }
+
     private void verifyAdd(Pawn pawn, int expectedBoardSize, String pawnIndex) {
         board.add(pawn);
         assertEquals(expectedBoardSize, board.size());
