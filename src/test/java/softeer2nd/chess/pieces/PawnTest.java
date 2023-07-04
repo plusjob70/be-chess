@@ -23,7 +23,7 @@ class PawnTest {
     }
 
     private void verifyPawn(final String color, final char representation) {
-        Pawn pawn = new Pawn(color, representation);
+        Pawn pawn = new Pawn(color);
         assertEquals(color, pawn.getColor());
         assertEquals(representation, pawn.getRepresentation());
     }
