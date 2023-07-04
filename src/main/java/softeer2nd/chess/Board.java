@@ -20,33 +20,30 @@ public class Board {
     }
 
     public void initialize() {
-        for (int i = 0; i < ROW_SIZE; i++) {
-            pieces.put(COLUMNS[i] + "6", new Pawn(Pawn.WHITE_COLOR));
-        }
+        initializePawns(Pawn.WHITE_COLOR, 6);
+        initializePawns(Pawn.BLACK_COLOR, 3);
+    }
 
+    private void initializePawns(String color, int row) {
         for (int i = 0; i < ROW_SIZE; i++) {
-            pieces.put(COLUMNS[i] + "3", new Pawn(Pawn.BLACK_COLOR));
+            pieces.put(COLUMNS[i] + row, new Pawn(color));
         }
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder sb = new StringBuilder();
-
-        for (Map.Entry<String, Pawn> entry : pieces.entrySet()) {
-            if (entry.getValue().getColor().equals(Pawn.WHITE_COLOR)) {
-                sb.append(Pawn.WHITE_REPRESENTATION);
-            }
-        }
-
-        return sb.toString();
+        return getPawnsResult(Pawn.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
+        return getPawnsResult(Pawn.BLACK_COLOR);
+    }
+
+    private String getPawnsResult(String color) {
         StringBuilder sb = new StringBuilder();
 
         for (Map.Entry<String, Pawn> entry : pieces.entrySet()) {
-            if (entry.getValue().getColor().equals(Pawn.BLACK_COLOR)) {
-                sb.append(Pawn.BLACK_REPRESENTATION);
+            if (entry.getValue().getColor().equals(color)) {
+                sb.append(entry.getValue().getRepresentation());
             }
         }
 
