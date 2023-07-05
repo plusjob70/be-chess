@@ -5,6 +5,8 @@ import softeer2nd.chess.pieces.Pawn;
 import java.util.HashMap;
 import java.util.Map;
 
+import static softeer2nd.chess.utils.StringUtils.appendNewLine;
+
 public class Board {
 
     private static final int ROW_SIZE = 8;
@@ -90,7 +92,7 @@ public class Board {
                     sb.append(BLANK_REPRESENTATION);
                 }
             }
-            sb.append("\n");
+            appendNewLine(sb);
         }
         sb.deleteCharAt(sb.length() - 1);
 
