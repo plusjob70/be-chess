@@ -66,41 +66,8 @@ public class Board {
         }
     }
 
-    private String getPawnsResult(String color) {
-        StringBuilder sb = new StringBuilder();
-
-        for (Map.Entry<String, Piece> entry : pieces.entrySet()) {
-            if (entry.getValue().getColor().equals(color)) {
-                sb.append(entry.getValue().getRepresentation());
-            }
-        }
-
-        return sb.toString();
-    }
-
-    public void add(Piece piece) {
-        String index;
-
-        for (int row : ROWS) {
-            for (String column : COLUMNS) {
-                index = column + row;
-                if (!pieces.containsKey(index)) {
-                    pieces.put(index, piece);
-                    return;
-                }
-            }
-        }
-    }
-
     public int pieceCount() {
         return pieces.size();
-    }
-
-    public Piece findPawn(String index) {
-        if (pieces.containsKey(index)) {
-            return pieces.get(index);
-        }
-        throw new IllegalArgumentException();
     }
 
     public String showBoard() {

@@ -9,9 +9,10 @@ public class GameManager {
     public static final String START_COMMAND = "start";
     public static final String END_COMMAND = "end";
 
+    private final Scanner scanner = new Scanner(System.in);
+
     public void main() {
         String command;
-        Scanner scanner = new Scanner(System.in);
         Board board = new Board();
 
         while (true) {
@@ -29,7 +30,7 @@ public class GameManager {
 
     private void startGame(Board board) {
         board.initialize();
-        System.out.println(board.print());
+        System.out.println(board.showBoard());
     }
 
 }
