@@ -23,22 +23,47 @@ public class Board {
     }
 
     public void initialize() {
-        initializePawns(Piece.WHITE_COLOR, 7);
-        initializePawns(Piece.BLACK_COLOR, 2);
+        initializePieces(Piece.BLACK_COLOR);
+        initializePieces(Piece.WHITE_COLOR);
     }
 
-    private void initializePawns(String color, int row) {
-        for (int i = 0; i < ROW_SIZE; i++) {
-            pieces.put(COLUMNS[i] + row, new Piece(color));
+    private void initializePieces(String color) {
+        initializeBottomPieces(color);
+        initializeTopPieces(color);
+    }
+
+    private void initializeBottomPieces(String color) {
+        if (color.equals(Piece.BLACK_COLOR)) {
+            pieces.put("a8", Piece.createBlackRook());
+            pieces.put("b8", Piece.createBlackKnight());
+            pieces.put("c8", Piece.createBlackBishop());
+            pieces.put("d8", Piece.createBlackQueen());
+            pieces.put("e8", Piece.createBlackKing());
+            pieces.put("f8", Piece.createBlackBishop());
+            pieces.put("g8", Piece.createBlackKnight());
+            pieces.put("h8", Piece.createBlackRook());
+        } else if (color.equals(Piece.WHITE_COLOR)) {
+            pieces.put("a1", Piece.createWhiteRook());
+            pieces.put("b1", Piece.createWhiteKnight());
+            pieces.put("c1", Piece.createWhiteBishop());
+            pieces.put("d1", Piece.createWhiteQueen());
+            pieces.put("e1", Piece.createWhiteKing());
+            pieces.put("f1", Piece.createWhiteBishop());
+            pieces.put("g1", Piece.createWhiteKnight());
+            pieces.put("h1", Piece.createWhiteRook());
         }
     }
 
-    public String getWhitePawnsResult() {
-        return getPawnsResult(Piece.WHITE_COLOR);
-    }
-
-    public String getBlackPawnsResult() {
-        return getPawnsResult(Piece.BLACK_COLOR);
+    private void initializeTopPieces(String color) {
+        if (color.equals(Piece.BLACK_COLOR)) {
+            for (int i = 0; i < ROW_SIZE; i++) {
+                pieces.put(COLUMNS[i] + 7, Piece.createBlackPawn());
+            }
+        } else if (color.equals(Piece.WHITE_COLOR)) {
+            for (int i = 0; i < ROW_SIZE; i++) {
+                pieces.put(COLUMNS[i] + 2, Piece.createWhitePawn());
+            }
+        }
     }
 
     private String getPawnsResult(String color) {
@@ -67,7 +92,7 @@ public class Board {
         }
     }
 
-    public int size() {
+    public int pieceCount() {
         return pieces.size();
     }
 
@@ -78,7 +103,7 @@ public class Board {
         throw new IllegalArgumentException();
     }
 
-    public String print() {
+    public String showBoard() {
         String index;
         StringBuilder sb = new StringBuilder();
 
@@ -94,7 +119,6 @@ public class Board {
             }
             appendNewLine(sb);
         }
-        sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
     }
