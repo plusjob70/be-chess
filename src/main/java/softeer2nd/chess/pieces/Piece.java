@@ -36,56 +36,64 @@ public class Piece {
         this.type = type;
     }
 
+    private static Piece createWhite(Type type) {
+        return new Piece(WHITE, type);
+    }
+
+    private static Piece createBlack(Type type) {
+        return new Piece(BLACK, type);
+    }
+
     public static Piece createBlank() {
         return new Piece(NO_COLOR, NO_PIECE);
     }
 
     public static Piece createWhitePawn() {
-        return new Piece(WHITE, PAWN);
+        return createWhite(PAWN);
     }
 
     public static Piece createBlackPawn() {
-        return new Piece(BLACK, PAWN);
+        return createBlack(PAWN);
     }
 
     public static Piece createWhiteKnight() {
-        return new Piece(WHITE, KNIGHT);
+        return createWhite(KNIGHT);
     }
 
     public static Piece createBlackKnight() {
-        return new Piece(BLACK, KNIGHT);
+        return createBlack(KNIGHT);
     }
 
     public static Piece createWhiteRook() {
-        return new Piece(WHITE, ROOK);
+        return createWhite(ROOK);
     }
 
     public static Piece createBlackRook() {
-        return new Piece(BLACK, ROOK);
+        return createBlack(ROOK);
     }
 
     public static Piece createWhiteBishop() {
-        return new Piece(WHITE, BISHOP);
+        return createWhite(BISHOP);
     }
 
     public static Piece createBlackBishop() {
-        return new Piece(BLACK, BISHOP);
+        return createBlack(BISHOP);
     }
 
     public static Piece createWhiteQueen() {
-        return new Piece(WHITE, QUEEN);
+        return createWhite(QUEEN);
     }
 
     public static Piece createBlackQueen() {
-        return new Piece(BLACK, QUEEN);
+        return createBlack(QUEEN);
     }
 
     public static Piece createWhiteKing() {
-        return new Piece(WHITE, KING);
+        return createWhite(KING);
     }
 
     public static Piece createBlackKing() {
-        return new Piece(BLACK, KING);
+        return createBlack(KING);
     }
 
     public Color getColor() {
