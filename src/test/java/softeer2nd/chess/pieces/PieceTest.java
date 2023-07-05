@@ -5,27 +5,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static softeer2nd.chess.pieces.Piece.*;
-import static softeer2nd.chess.pieces.Piece.Color.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
 
 class PieceTest {
 
-//    @Test
-//    @DisplayName("기물이 생성되어야 한다.")
-//    public void create_piece() {
-//        verifyPiece(createWhitePawn(), WHITE, PAWN.getWhiteRepresentation());
-//        verifyPiece(createBlackPawn(), BLACK, PAWN.getBlackRepresentation());
-//        verifyPiece(createWhiteKnight(), WHITE, KNIGHT.getWhiteRepresentation());
-//        verifyPiece(createBlackKnight(), BLACK, KNIGHT.getBlackRepresentation());
-//        verifyPiece(createWhiteRook(), WHITE, ROOK.getWhiteRepresentation());
-//        verifyPiece(createBlackRook(), BLACK, ROOK.getBlackRepresentation());
-//        verifyPiece(createWhiteBishop(), WHITE, BISHOP.getWhiteRepresentation());
-//        verifyPiece(createBlackBishop(), BLACK, BISHOP.getBlackRepresentation());
-//        verifyPiece(createWhiteQueen(), WHITE, QUEEN.getWhiteRepresentation());
-//        verifyPiece(createBlackQueen(), BLACK, QUEEN.getBlackRepresentation());
-//        verifyPiece(createWhiteKing(), WHITE, KING.getWhiteRepresentation());
-//        verifyPiece(createBlackKing(), BLACK, KING.getBlackRepresentation());
-//    }
+    @Test
+    @DisplayName("기물이 생성되어야 한다.")
+    public void create_piece() {
+        verifyPiece(createWhitePawn(), createBlackPawn(), PAWN);
+        verifyPiece(createWhiteKnight(), createBlackKnight(), KNIGHT);
+        verifyPiece(createWhiteRook(), createBlackRook(), ROOK);
+        verifyPiece(createWhiteBishop(), createBlackBishop(), BISHOP);
+        verifyPiece(createWhiteQueen(), createBlackQueen(), QUEEN);
+        verifyPiece(createWhiteKing(), createBlackKing(), KING);
+
+        Piece blank = createBlank();
+        assertFalse(blank.isWhite());
+        assertFalse(blank.isBlack());
+        assertEquals(NO_PIECE, blank.getType());
+    }
 
     @Test
     @DisplayName("기물은 색깔별로 각각의 표현을 가진다.")
@@ -64,9 +62,12 @@ class PieceTest {
         assertFalse(whiteKing.isBlack());
     }
 
-    private void verifyPiece(final Piece piece, final Color color, final char representation) {
-        assertEquals(color, piece.getColor());
-        assertEquals(representation, piece.getType().getWhiteRepresentation());
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
+        assertTrue(whitePiece.isWhite());
+        assertEquals(type, whitePiece.getType());
+
+        assertTrue(blackPiece.isBlack());
+        assertEquals(type, blackPiece.getType());
     }
 
 }

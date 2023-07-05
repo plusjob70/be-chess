@@ -13,7 +13,7 @@ public class Piece {
         PAWN('p'), ROOK('r'), KNIGHT('n'), BISHOP('b'),
         QUEEN('q'), KING('k'), NO_PIECE('.');
 
-        private char representation;
+        private final char representation;
 
         Type(char representation) {
             this.representation = representation;
@@ -34,6 +34,10 @@ public class Piece {
     private Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
+    }
+
+    public static Piece createBlank() {
+        return new Piece(NO_COLOR, NO_PIECE);
     }
 
     public static Piece createWhitePawn() {
