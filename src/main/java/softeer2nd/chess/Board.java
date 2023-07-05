@@ -1,10 +1,13 @@
 package softeer2nd.chess;
 
 import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.pieces.Piece.Color;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static softeer2nd.chess.pieces.Piece.Color.BLACK;
+import static softeer2nd.chess.pieces.Piece.Color.WHITE;
 import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 public class Board {
@@ -23,17 +26,17 @@ public class Board {
     }
 
     public void initialize() {
-        initializePieces(Piece.BLACK_COLOR);
-        initializePieces(Piece.WHITE_COLOR);
+        initializePieces(BLACK);
+        initializePieces(Color.WHITE);
     }
 
-    private void initializePieces(String color) {
+    private void initializePieces(Color color) {
         initializeBottomPieces(color);
         initializeTopPieces(color);
     }
 
-    private void initializeBottomPieces(String color) {
-        if (color.equals(Piece.BLACK_COLOR)) {
+    private void initializeBottomPieces(Color color) {
+        if (color.equals(BLACK)) {
             pieces.put("a8", Piece.createBlackRook());
             pieces.put("b8", Piece.createBlackKnight());
             pieces.put("c8", Piece.createBlackBishop());
@@ -42,7 +45,7 @@ public class Board {
             pieces.put("f8", Piece.createBlackBishop());
             pieces.put("g8", Piece.createBlackKnight());
             pieces.put("h8", Piece.createBlackRook());
-        } else if (color.equals(Piece.WHITE_COLOR)) {
+        } else if (color.equals(WHITE)) {
             pieces.put("a1", Piece.createWhiteRook());
             pieces.put("b1", Piece.createWhiteKnight());
             pieces.put("c1", Piece.createWhiteBishop());
@@ -54,12 +57,12 @@ public class Board {
         }
     }
 
-    private void initializeTopPieces(String color) {
-        if (color.equals(Piece.BLACK_COLOR)) {
+    private void initializeTopPieces(Color color) {
+        if (color.equals(BLACK)) {
             for (int i = 0; i < ROW_SIZE; i++) {
                 pieces.put(COLUMNS[i] + 7, Piece.createBlackPawn());
             }
-        } else if (color.equals(Piece.WHITE_COLOR)) {
+        } else if (color.equals(WHITE)) {
             for (int i = 0; i < ROW_SIZE; i++) {
                 pieces.put(COLUMNS[i] + 2, Piece.createWhitePawn());
             }
@@ -79,7 +82,12 @@ public class Board {
                 index = column + row;
 
                 if (pieces.containsKey(index)) {
-                    sb.append(pieces.get(index).getRepresentation());
+                    Piece piece = pieces.get(index);
+                    if (piece.getColor().equals(WHITE)) {
+                        sb.append(piece.getType().getWhiteRepresentation());
+                    } else {
+                        sb.append(piece.getType().getBlackRepresentation());
+                    }
                 } else {
                     sb.append(BLANK_REPRESENTATION);
                 }
