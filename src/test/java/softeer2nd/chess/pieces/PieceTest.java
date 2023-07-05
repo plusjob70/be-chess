@@ -3,7 +3,7 @@ package softeer2nd.chess.pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PieceTest {
 
@@ -22,6 +22,18 @@ class PieceTest {
         verifyPiece(Piece.createBlackQueen(), Piece.BLACK_COLOR, Piece.BLACK_QUEEN_REPRESENTATION);
         verifyPiece(Piece.createWhiteKing(), Piece.WHITE_COLOR, Piece.WHITE_KING_REPRESENTATION);
         verifyPiece(Piece.createBlackKing(), Piece.BLACK_COLOR, Piece.BLACK_KING_REPRESENTATION);
+    }
+
+    @Test
+    @DisplayName("기물의 색깔을 확인할 수 있다.")
+    public void checkColor() {
+        Piece blackKing = Piece.createBlackKing();
+        assertTrue(blackKing.isBlack());
+        assertFalse(blackKing.isWhite());
+
+        Piece whiteKing = Piece.createWhiteKing();
+        assertTrue(whiteKing.isWhite());
+        assertFalse(whiteKing.isBlack());
     }
 
     private void verifyPiece(final Piece piece, final String color, final char representation) {

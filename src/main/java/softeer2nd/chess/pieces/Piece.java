@@ -93,6 +93,14 @@ public class Piece {
         return representation;
     }
 
+    public boolean isBlack() {
+        return color.equals(BLACK_COLOR);
+    }
+
+    public boolean isWhite() {
+        return color.equals(WHITE_COLOR);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
