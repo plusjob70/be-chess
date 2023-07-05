@@ -3,7 +3,7 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,12 +20,12 @@ class BoardTest {
     @Test
     @DisplayName("보드에 Pawn을 추가한다.")
     public void addPawn() {
-        verifyAdd(new Pawn(Pawn.WHITE_COLOR), 1, "a8");
-        verifyAdd(new Pawn(Pawn.BLACK_COLOR), 2, "b8");
+        verifyAdd(new Piece(Piece.WHITE_COLOR), 1, "a8");
+        verifyAdd(new Piece(Piece.BLACK_COLOR), 2, "b8");
     }
 
     @Test
-    @DisplayName("보드에는 Pawn 객체만 추가될 수 있다.")
+    @DisplayName("보드에는 Piece 객체만 추가될 수 있다.")
     public void addOtherObject() {
         // 컴파일 에러 발생
         // board.add(new Integer("7"));
@@ -34,7 +34,7 @@ class BoardTest {
     @Test
     @DisplayName("보드의 범위 밖에서 Pawn을 찾을 때 예외가 발생한다.")
     public void findPawnOutOfBounds() {
-        board.add(new Pawn());
+        board.add(new Piece());
 
         assertThrows(IllegalArgumentException.class,
                 () -> board.findPawn("a1")
@@ -62,10 +62,10 @@ class BoardTest {
         System.out.println(board.print());
     }
 
-    private void verifyAdd(Pawn pawn, int expectedBoardSize, String pawnIndex) {
-        board.add(pawn);
+    private void verifyAdd(Piece piece, int expectedBoardSize, String pawnIndex) {
+        board.add(piece);
         assertEquals(expectedBoardSize, board.size());
-        assertEquals(pawn, board.findPawn(pawnIndex));
+        assertEquals(piece, board.findPawn(pawnIndex));
     }
 
 }

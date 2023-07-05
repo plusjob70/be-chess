@@ -1,6 +1,6 @@
 package softeer2nd.chess;
 
-import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Piece;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,35 +16,35 @@ public class Board {
     private static final int[] ROWS = {8, 7, 6, 5, 4, 3, 2, 1};
     private static final String[] COLUMNS = {"a", "b", "c", "d", "e", "f", "g", "h"};
     
-    private final Map<String, Pawn> pieces;
+    private final Map<String, Piece> pieces;
 
     public Board() {
         pieces = new HashMap<>();
     }
 
     public void initialize() {
-        initializePawns(Pawn.WHITE_COLOR, 7);
-        initializePawns(Pawn.BLACK_COLOR, 2);
+        initializePawns(Piece.WHITE_COLOR, 7);
+        initializePawns(Piece.BLACK_COLOR, 2);
     }
 
     private void initializePawns(String color, int row) {
         for (int i = 0; i < ROW_SIZE; i++) {
-            pieces.put(COLUMNS[i] + row, new Pawn(color));
+            pieces.put(COLUMNS[i] + row, new Piece(color));
         }
     }
 
     public String getWhitePawnsResult() {
-        return getPawnsResult(Pawn.WHITE_COLOR);
+        return getPawnsResult(Piece.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
-        return getPawnsResult(Pawn.BLACK_COLOR);
+        return getPawnsResult(Piece.BLACK_COLOR);
     }
 
     private String getPawnsResult(String color) {
         StringBuilder sb = new StringBuilder();
 
-        for (Map.Entry<String, Pawn> entry : pieces.entrySet()) {
+        for (Map.Entry<String, Piece> entry : pieces.entrySet()) {
             if (entry.getValue().getColor().equals(color)) {
                 sb.append(entry.getValue().getRepresentation());
             }
@@ -53,14 +53,14 @@ public class Board {
         return sb.toString();
     }
 
-    public void add(Pawn pawn) {
+    public void add(Piece piece) {
         String index;
 
         for (int row : ROWS) {
             for (String column : COLUMNS) {
                 index = column + row;
                 if (!pieces.containsKey(index)) {
-                    pieces.put(index, pawn);
+                    pieces.put(index, piece);
                     return;
                 }
             }
@@ -71,7 +71,7 @@ public class Board {
         return pieces.size();
     }
 
-    public Pawn findPawn(String index) {
+    public Piece findPawn(String index) {
         if (pieces.containsKey(index)) {
             return pieces.get(index);
         }
