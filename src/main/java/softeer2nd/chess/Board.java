@@ -1,99 +1,86 @@
 package softeer2nd.chess;
 
-import softeer2nd.chess.pieces.Piece;
-import softeer2nd.chess.pieces.Piece.Color;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static softeer2nd.chess.pieces.Piece.Color.BLACK;
-import static softeer2nd.chess.pieces.Piece.Color.WHITE;
+import static softeer2nd.chess.pieces.Piece.*;
 import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 public class Board {
 
-    private static final int ROW_SIZE = 8;
+    private static final int RANK_SIZE = 8;
     private static final int COLUMN_SIZE = 8;
-    private static final char BLANK_REPRESENTATION = '.';
 
-    private static final int[] ROWS = {8, 7, 6, 5, 4, 3, 2, 1};
-    private static final String[] COLUMNS = {"a", "b", "c", "d", "e", "f", "g", "h"};
-    
-    private final Map<String, Piece> pieces;
+    private final List<Rank> ranks;
+    private final int[] rows = {8, 7, 6, 5, 4, 3, 2, 1};
+    private final char[] columns = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
     public Board() {
-        pieces = new HashMap<>();
+        ranks = new ArrayList<>();
+        for (int rankNumber = RANK_SIZE; rankNumber > 0; rankNumber--) {
+            ranks.add(new Rank(rankNumber));
+        }
     }
 
     public void initialize() {
-        initializePieces(BLACK);
-        initializePieces(Color.WHITE);
+        initializeRank8();
+        initializePawnRank(7);
+        initializePawnRank(2);
+        initializeRank1();
     }
 
-    private void initializePieces(Color color) {
-        initializeBottomPieces(color);
-        initializeTopPieces(color);
+    private void initializeRank8() {
+        Rank rank8 = getRank(8);
+        rank8.setPiece('a', createBlackRook());
+        rank8.setPiece('b', createBlackKnight());
+        rank8.setPiece('c', createBlackBishop());
+        rank8.setPiece('d', createBlackQueen());
+        rank8.setPiece('e', createBlackKing());
+        rank8.setPiece('f', createBlackBishop());
+        rank8.setPiece('g', createBlackKnight());
+        rank8.setPiece('h', createBlackRook());
     }
 
-    private void initializeBottomPieces(Color color) {
-        if (color.equals(BLACK)) {
-            pieces.put("a8", Piece.createBlackRook());
-            pieces.put("b8", Piece.createBlackKnight());
-            pieces.put("c8", Piece.createBlackBishop());
-            pieces.put("d8", Piece.createBlackQueen());
-            pieces.put("e8", Piece.createBlackKing());
-            pieces.put("f8", Piece.createBlackBishop());
-            pieces.put("g8", Piece.createBlackKnight());
-            pieces.put("h8", Piece.createBlackRook());
-        } else if (color.equals(WHITE)) {
-            pieces.put("a1", Piece.createWhiteRook());
-            pieces.put("b1", Piece.createWhiteKnight());
-            pieces.put("c1", Piece.createWhiteBishop());
-            pieces.put("d1", Piece.createWhiteQueen());
-            pieces.put("e1", Piece.createWhiteKing());
-            pieces.put("f1", Piece.createWhiteBishop());
-            pieces.put("g1", Piece.createWhiteKnight());
-            pieces.put("h1", Piece.createWhiteRook());
-        }
-    }
+    private void initializePawnRank(int rankNumber) {
+        Rank pawnRank = getRank(rankNumber);
 
-    private void initializeTopPieces(Color color) {
-        if (color.equals(BLACK)) {
-            for (int i = 0; i < ROW_SIZE; i++) {
-                pieces.put(COLUMNS[i] + 7, Piece.createBlackPawn());
+        if (rankNumber == 7) {
+            for (int i = 0; i < COLUMN_SIZE; i++) {
+                pawnRank.setPiece(columns[i], createBlackPawn());
             }
-        } else if (color.equals(WHITE)) {
-            for (int i = 0; i < ROW_SIZE; i++) {
-                pieces.put(COLUMNS[i] + 2, Piece.createWhitePawn());
+        } else if (rankNumber == 2) {
+            for (int i = 0; i < COLUMN_SIZE; i++) {
+                pawnRank.setPiece(columns[i], createWhitePawn());
             }
         }
     }
 
-    public int pieceCount() {
-        return pieces.size();
+    private void initializeRank1() {
+        Rank rank1 = getRank(1);
+        rank1.setPiece('a', createWhiteRook());
+        rank1.setPiece('b', createWhiteKnight());
+        rank1.setPiece('c', createWhiteBishop());
+        rank1.setPiece('d', createWhiteQueen());
+        rank1.setPiece('e', createWhiteKing());
+        rank1.setPiece('f', createWhiteBishop());
+        rank1.setPiece('g', createWhiteKnight());
+        rank1.setPiece('h', createWhiteRook());
+    }
+
+    private Rank getRank(int rankNumber) {
+        return ranks.get(RANK_SIZE - rankNumber);
     }
 
     public String showBoard() {
-        String index;
         StringBuilder sb = new StringBuilder();
 
-        for (int row : ROWS) {
-            for (String column : COLUMNS) {
-                index = column + row;
-
-                if (pieces.containsKey(index)) {
-                    Piece piece = pieces.get(index);
-                    if (piece.getColor().equals(WHITE)) {
-                        sb.append(piece.getType().getWhiteRepresentation());
-                    } else {
-                        sb.append(piece.getType().getBlackRepresentation());
-                    }
-                } else {
-                    sb.append(BLANK_REPRESENTATION);
-                }
-            }
+        for (int rankNumber = RANK_SIZE; rankNumber > 0; rankNumber--) {
+            sb.append(getRank(rankNumber).toString());
             appendNewLine(sb);
         }
+        appendNewLine(sb);
+        appendNewLine(sb);
+        sb.append("abcdefgh");
 
         return sb.toString();
     }

@@ -19,8 +19,12 @@ public class Piece {
             this.representation = representation;
         }
 
-        public char getWhiteRepresentation() {
+        public char getDefaultRepresentation() {
             return representation;
+        }
+
+        public char getWhiteRepresentation() {
+            return getDefaultRepresentation();
         }
 
         public char getBlackRepresentation() {

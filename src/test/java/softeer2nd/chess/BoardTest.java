@@ -27,14 +27,18 @@ class BoardTest {
     @DisplayName("체스판이 초기화 된다.")
     public void initialize() throws Exception {
         board.initialize();
-        assertEquals(32, board.pieceCount());
-        String blankRank = appendNewLine("........");
+        String blankRank = "........";
         assertEquals(
-                appendNewLine("RNBQKBNR") +
-                        appendNewLine("PPPPPPPP") +
-                        blankRank + blankRank + blankRank + blankRank +
-                        appendNewLine("pppppppp") +
-                        appendNewLine("rnbqkbnr"),
+                appendNewLine("RNBQKBNR  8") +
+                        appendNewLine("PPPPPPPP  7") +
+                        appendNewLine(blankRank + "  6") +
+                        appendNewLine(blankRank + "  5") +
+                        appendNewLine(blankRank + "  4") +
+                        appendNewLine(blankRank + "  3") +
+                        appendNewLine("pppppppp  2") +
+                        appendNewLine("rnbqkbnr  1") +
+                        appendNewLine("") + appendNewLine("") +
+                        "abcdefgh",
                 board.showBoard());
     }
 
