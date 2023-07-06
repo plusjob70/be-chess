@@ -10,24 +10,34 @@ import static softeer2nd.chess.pieces.Piece.Color.WHITE;
 
 public class Rank {
 
-    private final int rankNumber;
     private final List<Piece> pieces;
+    private final int rankNumber;
 
     public Rank(int rankNumber) {
-        this.rankNumber = rankNumber;
         this.pieces = new ArrayList<>();
+        this.rankNumber = rankNumber;
 
         for (int i = 0; i < 8; i++) {
             this.pieces.add(Piece.createBlank());
         }
     }
 
-    public Piece getPiece(char column) {
-        return pieces.get(getPosition(column));
+    public Piece getPiece(int index) {
+        return pieces.get(index);
     }
 
-    public void setPiece(char column, Piece piece) {
-        pieces.set(getPosition(column), piece);
+    public void setPiece(int index, Piece piece) {
+        pieces.set(index, piece);
+    }
+
+    public int getCountPieces(Piece.Color color, Piece.Type type) {
+        int count = 0;
+        for (Piece piece : pieces) {
+            if (piece.getColor().equals(color) && piece.getType().equals(type)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
@@ -47,24 +57,6 @@ public class Rank {
         sb.append("  ").append(rankNumber);
 
         return sb.toString();
-    }
-
-    public int getCountPieces(Piece.Color color, Piece.Type type) {
-        int count = 0;
-        for (Piece piece : pieces) {
-            if (piece.getColor().equals(color) && piece.getType().equals(type)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    private int getPosition(char column) {
-        int position = column - 'a';
-        if (position < 0 || position >= 8) {
-            throw new IllegalArgumentException("Column 범위가 아닙니다.");
-        }
-        return position;
     }
 
 }
