@@ -67,8 +67,15 @@ public class Board {
         rank1.setPiece('h', createWhiteRook());
     }
 
-    private Rank getRank(int rankNumber) {
-        return ranks.get(RANK_SIZE - rankNumber);
+    public int getCountPieces(Color color, Type type) {
+        Rank rank;
+        int count = 0;
+
+        for (int rankNumber = RANK_SIZE; rankNumber > 0; rankNumber--) {
+            rank = getRank(rankNumber);
+            count += rank.getCountPieces(color, type);
+        }
+        return count;
     }
 
     public String showBoard() {
@@ -81,8 +88,10 @@ public class Board {
         appendNewLine(sb);
         appendNewLine(sb);
         sb.append("abcdefgh");
-
         return sb.toString();
     }
 
+    private Rank getRank(int rankNumber) {
+        return ranks.get(RANK_SIZE - rankNumber);
+    }
 }

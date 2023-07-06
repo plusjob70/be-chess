@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static softeer2nd.chess.pieces.Piece.Color.*;
+import static softeer2nd.chess.pieces.Piece.Type.*;
 import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 class BoardTest {
@@ -55,4 +57,22 @@ class BoardTest {
         System.out.println(board.showBoard());
     }
 
+    @Test
+    @DisplayName("기물과 색에 해당하는 기물의 개수를 반환한다.")
+    public void countOfPiece() {
+        board.initialize();
+        assertEquals(8, board.getCountPieces(WHITE, PAWN));
+        assertEquals(8, board.getCountPieces(BLACK, PAWN));
+        assertEquals(2, board.getCountPieces(WHITE, ROOK));
+        assertEquals(2, board.getCountPieces(BLACK, ROOK));
+        assertEquals(2, board.getCountPieces(WHITE, KNIGHT));
+        assertEquals(2, board.getCountPieces(BLACK, KNIGHT));
+        assertEquals(2, board.getCountPieces(WHITE, BISHOP));
+        assertEquals(2, board.getCountPieces(BLACK, BISHOP));
+        assertEquals(1, board.getCountPieces(WHITE, QUEEN));
+        assertEquals(1, board.getCountPieces(BLACK, QUEEN));
+        assertEquals(1, board.getCountPieces(WHITE, KING));
+        assertEquals(1, board.getCountPieces(BLACK, KING));
+        assertEquals(32, board.getCountPieces(NO_COLOR, NO_PIECE));
+    }
 }
