@@ -5,40 +5,6 @@ import static softeer2nd.chess.pieces.Piece.Type.*;
 
 public class Piece implements Comparable<Piece> {
 
-    public enum Color {
-        WHITE, BLACK, NO_COLOR;
-    }
-
-    public enum Type {
-        PAWN('p', 0.5), ROOK('r', 5.0), KNIGHT('n', 2.5),
-        BISHOP('b', 3.0), QUEEN('q', 9.0), KING('k', 0.0),
-        NO_PIECE('.', 0.0);
-
-        private final char representation;
-        private final double point;
-
-        Type(char representation, double point) {
-            this.representation = representation;
-            this.point = point;
-        }
-
-        public char getDefaultRepresentation() {
-            return representation;
-        }
-
-        public char getWhiteRepresentation() {
-            return getDefaultRepresentation();
-        }
-
-        public char getBlackRepresentation() {
-            return Character.toUpperCase(representation);
-        }
-
-        public double getPoint() {
-            return point;
-        }
-    }
-
     private final Color color;
     private final Type type;
 
@@ -47,12 +13,12 @@ public class Piece implements Comparable<Piece> {
         this.type = type;
     }
 
-    private static Piece createWhite(Type type) {
-        return new Piece(WHITE, type);
+    public Color getColor() {
+        return color;
     }
 
-    private static Piece createBlack(Type type) {
-        return new Piece(BLACK, type);
+    public Type getType() {
+        return type;
     }
 
     public static Piece createBlank() {
@@ -107,14 +73,6 @@ public class Piece implements Comparable<Piece> {
         return createBlack(KING);
     }
 
-    public Color getColor() {
-        return color;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
     public boolean isBlack() {
         return color.equals(BLACK);
     }
@@ -127,15 +85,12 @@ public class Piece implements Comparable<Piece> {
         return type.equals(NO_PIECE);
     }
 
-    @Override
-    public int compareTo(Piece other) {
-        double diff = this.type.point - other.type.point;
-        if (diff > 0) {
-            return 1;
-        } else if (diff < 0) {
-            return -1;
-        }
-        return 0;
+    private static Piece createWhite(Type type) {
+        return new Piece(WHITE, type);
+    }
+
+    private static Piece createBlack(Type type) {
+        return new Piece(BLACK, type);
     }
 
     @Override
@@ -154,5 +109,50 @@ public class Piece implements Comparable<Piece> {
         int result = color != null ? color.hashCode() : 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(Piece other) {
+        double diff = this.type.point - other.type.point;
+        if (diff > 0) {
+            return 1;
+        } else if (diff < 0) {
+            return -1;
+        }
+        return 0;
+    }
+
+    public enum Color {
+        WHITE, BLACK, NO_COLOR;
+    }
+
+    public enum Type {
+        PAWN('p', 0.5), ROOK('r', 5.0), KNIGHT('n', 2.5),
+        BISHOP('b', 3.0), QUEEN('q', 9.0), KING('k', 0.0),
+        NO_PIECE('.', 0.0);
+
+        private final char representation;
+        private final double point;
+
+        Type(char representation, double point) {
+            this.representation = representation;
+            this.point = point;
+        }
+
+        public char getDefaultRepresentation() {
+            return representation;
+        }
+
+        public char getWhiteRepresentation() {
+            return getDefaultRepresentation();
+        }
+
+        public char getBlackRepresentation() {
+            return Character.toUpperCase(representation);
+        }
+
+        public double getPoint() {
+            return point;
+        }
     }
 }

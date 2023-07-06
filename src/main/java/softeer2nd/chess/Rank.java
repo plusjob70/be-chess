@@ -58,5 +58,4 @@ public class Rank {
 
         return sb.toString();
     }
-
 }
