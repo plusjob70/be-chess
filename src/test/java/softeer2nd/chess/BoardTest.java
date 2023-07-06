@@ -1,9 +1,14 @@
 package softeer2nd.chess;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Piece;
+
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -168,6 +173,48 @@ class BoardTest {
 
         assertEquals(0.0, board.calculateScores(BLACK), 0.01);
         assertEquals(0.0, board.calculateScores(WHITE), 0.01);
+    }
+
+    @Test
+    @DisplayName("기물의 점수가 높은 순으로 정렬한다.")
+    public void orderPieceNaturalOrder() {
+        board.initializeEmpty();
+
+        addPiece("a1", Piece.createBlackKing());
+        addPiece("b1", Piece.createBlackPawn());
+        addPiece("c1", Piece.createBlackBishop());
+        addPiece("d1", Piece.createBlackQueen());
+
+        List<Piece> orderedPieces = board.getOrderedPieces(BLACK, false);
+
+        List<Piece> expected = Arrays.asList(
+                Piece.createBlackQueen(),
+                Piece.createBlackBishop(),
+                Piece.createBlackPawn(),
+                Piece.createBlackKing()
+        );
+        assertEquals(expected, orderedPieces);
+    }
+
+    @Test
+    @DisplayName("기물의 점수가 낮은 순으로 정렬한다.")
+    public void orderPieceReversedOrder() {
+        board.initializeEmpty();
+
+        addPiece("a1", Piece.createBlackKing());
+        addPiece("b1", Piece.createBlackPawn());
+        addPiece("c1", Piece.createBlackBishop());
+        addPiece("d1", Piece.createBlackQueen());
+
+        List<Piece> orderedPieces = board.getOrderedPieces(BLACK, true);
+
+        List<Piece> expected = Arrays.asList(
+                Piece.createBlackKing(),
+                Piece.createBlackPawn(),
+                Piece.createBlackBishop(),
+                Piece.createBlackQueen()
+        );
+        assertEquals(expected, orderedPieces);
     }
 
     private void addPiece(String expression, Piece piece) {

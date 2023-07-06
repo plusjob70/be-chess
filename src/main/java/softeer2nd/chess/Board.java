@@ -3,7 +3,9 @@ package softeer2nd.chess;
 import softeer2nd.chess.pieces.Piece;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import static softeer2nd.chess.pieces.Piece.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
@@ -123,6 +125,25 @@ public class Board {
             return scores;
         }
         return 0.0;
+    }
+
+    public List<Piece> getOrderedPieces(Color color, boolean reversed) {
+        PriorityQueue<Piece> heap;
+        if (reversed) {
+            heap = new PriorityQueue<>();
+        } else {
+            heap = new PriorityQueue<>(Comparator.reverseOrder());
+        }
+
+        for (int x = 0; x < RANK_SIZE; x++) {
+            for (int y = 0; y < COLUMN_SIZE; y++) {
+                Piece piece = ranks.get(x).getPiece(y);
+                if (!piece.isBlank() && piece.getColor().equals(color)) {
+                    heap.add(piece);
+                }
+            }
+        }
+        return new ArrayList<>(heap);
     }
 
     public String showBoard() {

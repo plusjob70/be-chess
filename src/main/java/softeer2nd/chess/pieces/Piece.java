@@ -3,7 +3,7 @@ package softeer2nd.chess.pieces;
 import static softeer2nd.chess.pieces.Piece.Color.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
 
-public class Piece {
+public class Piece implements Comparable<Piece> {
 
     public enum Color {
         WHITE, BLACK, NO_COLOR;
@@ -121,6 +121,21 @@ public class Piece {
 
     public boolean isWhite() {
         return color.equals(WHITE);
+    }
+
+    public boolean isBlank() {
+        return type.equals(NO_PIECE);
+    }
+
+    @Override
+    public int compareTo(Piece other) {
+        double diff = this.type.point - other.type.point;
+        if (diff > 0) {
+            return 1;
+        } else if (diff < 0) {
+            return -1;
+        }
+        return 0;
     }
 
     @Override
