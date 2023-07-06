@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static softeer2nd.chess.pieces.Piece.*;
+import static softeer2nd.chess.pieces.Piece.Type.*;
 import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 public class Board {
@@ -95,10 +96,37 @@ public class Board {
         ranks.get(position.getX()).setPiece(position.getY(), piece);
     }
 
+    public double calculateScores(Color color) {
+        double scores = 0.0;
+        boolean existKing = false;
+        Piece piece;
+
+        for (int y = 0; y < COLUMN_SIZE; y++) {
+            int pawnCount = 0;
+            for (int x = 0; x < RANK_SIZE; x++) {
+                piece = ranks.get(x).getPiece(y);
+
+                if (piece.getType().equals(PAWN) && piece.getColor().equals(color)) {
+                    pawnCount++;
+                } else if (piece.getColor().equals(color)) {
+                    scores += piece.getType().getPoint();
+                }
+
+                if (piece.getType().equals(KING) && piece.getColor().equals(color)) {
+                    existKing = true;
+                }
+            }
+            scores += pawnCount > 1 ? PAWN.getPoint() * pawnCount : pawnCount;
+        }
+
+        if (existKing) {
+            return scores;
+        }
+        return 0.0;
+    }
+
     public String showBoard() {
         StringBuilder sb = new StringBuilder();
-
-
 
         Rank rank;
         for (int rankNumber = RANK_SIZE; rankNumber > 0; rankNumber--) {
