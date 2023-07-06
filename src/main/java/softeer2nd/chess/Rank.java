@@ -3,9 +3,7 @@ package softeer2nd.chess;
 import softeer2nd.chess.pieces.Piece;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static softeer2nd.chess.pieces.Piece.Color.BLACK;
 import static softeer2nd.chess.pieces.Piece.Color.WHITE;
@@ -13,19 +11,6 @@ import static softeer2nd.chess.pieces.Piece.Color.WHITE;
 public class Rank {
 
     private final int rankNumber;
-    private static final Map<Character, Integer> columnMap = new HashMap<>();
-
-    static {
-        columnMap.put('a', 0);
-        columnMap.put('b', 1);
-        columnMap.put('c', 2);
-        columnMap.put('d', 3);
-        columnMap.put('e', 4);
-        columnMap.put('f', 5);
-        columnMap.put('g', 6);
-        columnMap.put('h', 7);
-    }
-
     private final List<Piece> pieces;
 
     public Rank(int rankNumber) {
@@ -38,11 +23,11 @@ public class Rank {
     }
 
     public Piece getPiece(char column) {
-        return pieces.get(getIndex(column));
+        return pieces.get(getPosition(column));
     }
 
     public void setPiece(char column, Piece piece) {
-        pieces.set(getIndex(column), piece);
+        pieces.set(getPosition(column), piece);
     }
 
     @Override
@@ -74,8 +59,12 @@ public class Rank {
         return count;
     }
 
-    private int getIndex(char column) {
-        return columnMap.get(column);
+    private int getPosition(char column) {
+        int position = column - 'a';
+        if (position < 0 || position >= 8) {
+            throw new IllegalArgumentException("Column 범위가 아닙니다.");
+        }
+        return position;
     }
 
 }

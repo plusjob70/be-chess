@@ -1,5 +1,7 @@
 package softeer2nd.chess;
 
+import softeer2nd.chess.pieces.Piece;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Board {
 
     private static final int RANK_SIZE = 8;
     private static final int COLUMN_SIZE = 8;
+    private static final String INDEX_EXPRESSION = "[a-h][1-8]";
 
     private final List<Rank> ranks;
     private final int[] rows = {8, 7, 6, 5, 4, 3, 2, 1};
@@ -76,6 +79,16 @@ public class Board {
             count += rank.getCountPieces(color, type);
         }
         return count;
+    }
+
+    public Piece findPiece(String index) {
+        if (!index.matches(INDEX_EXPRESSION)) {
+            throw new IllegalArgumentException("잘못된 인덱스입니다.");
+        }
+
+        int row = Character.getNumericValue(index.charAt(1));
+        char column = index.charAt(0);
+        return getRank(row).getPiece(column);
     }
 
     public String showBoard() {

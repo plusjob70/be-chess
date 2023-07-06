@@ -1,9 +1,12 @@
 package softeer2nd.chess;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.pieces.Piece;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.chess.pieces.Piece.Color.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
@@ -74,5 +77,29 @@ class BoardTest {
         assertEquals(1, board.getCountPieces(WHITE, KING));
         assertEquals(1, board.getCountPieces(BLACK, KING));
         assertEquals(32, board.getCountPieces(NO_COLOR, NO_PIECE));
+    }
+
+    @Test
+    @DisplayName("주어진 위치의 기물을 조회한다.")
+    public void findPiece() {
+        board.initialize();
+
+        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+    }
+
+    @Test
+    @DisplayName("잘못된 인덱스로 접근시 오류가 발생한다.")
+    public void IllegalIndex() {
+        assertThatThrownBy(() -> board.findPiece("a9"))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> board.findPiece("i1"))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> board.findPiece("1a"))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
