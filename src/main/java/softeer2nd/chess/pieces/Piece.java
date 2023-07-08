@@ -3,12 +3,12 @@ package softeer2nd.chess.pieces;
 import static softeer2nd.chess.pieces.Piece.Color.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
 
-public class Piece implements Comparable<Piece> {
+public abstract class Piece implements Comparable<Piece> {
 
     private final Color color;
     private final Type type;
 
-    private Piece(Color color, Type type) {
+    protected Piece(Color color, Type type) {
         this.color = color;
         this.type = type;
     }
@@ -22,55 +22,55 @@ public class Piece implements Comparable<Piece> {
     }
 
     public static Piece createBlank() {
-        return new Piece(NO_COLOR, NO_PIECE);
+        return new NoPiece();
     }
 
     public static Piece createWhitePawn() {
-        return createWhite(PAWN);
+        return new Pawn(WHITE);
     }
 
     public static Piece createBlackPawn() {
-        return createBlack(PAWN);
+        return new Pawn(BLACK);
     }
 
     public static Piece createWhiteKnight() {
-        return createWhite(KNIGHT);
+        return new Knight(WHITE);
     }
 
     public static Piece createBlackKnight() {
-        return createBlack(KNIGHT);
+        return new Knight(BLACK);
     }
 
     public static Piece createWhiteRook() {
-        return createWhite(ROOK);
+        return new Rook(WHITE);
     }
 
     public static Piece createBlackRook() {
-        return createBlack(ROOK);
+        return new Rook(BLACK);
     }
 
     public static Piece createWhiteBishop() {
-        return createWhite(BISHOP);
+        return new Bishop(WHITE);
     }
 
     public static Piece createBlackBishop() {
-        return createBlack(BISHOP);
+        return new Bishop(BLACK);
     }
 
     public static Piece createWhiteQueen() {
-        return createWhite(QUEEN);
+        return new Queen(WHITE);
     }
 
     public static Piece createBlackQueen() {
-        return createBlack(QUEEN);
+        return new Queen(BLACK);
     }
 
     public static Piece createWhiteKing() {
-        return createWhite(KING);
+        return new King(WHITE);
     }
 
     public static Piece createBlackKing() {
-        return createBlack(KING);
+        return new King(BLACK);
     }
 
     public boolean isBlack() {
@@ -83,14 +83,6 @@ public class Piece implements Comparable<Piece> {
 
     public boolean isBlank() {
         return type.equals(NO_PIECE);
-    }
-
-    private static Piece createWhite(Type type) {
-        return new Piece(WHITE, type);
-    }
-
-    private static Piece createBlack(Type type) {
-        return new Piece(BLACK, type);
     }
 
     @Override
