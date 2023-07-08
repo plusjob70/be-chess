@@ -12,9 +12,9 @@ import static softeer2nd.chess.pieces.Piece.Type.*;
 import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 public class Board {
-
-    private static final int RANK_SIZE = 8;
-    private static final int COLUMN_SIZE = 8;
+    public static final int SIZE = 8;
+    public static final int RANK_SIZE = 8;
+    public static final int COLUMN_SIZE = 8;
     private static final String COLUMN_REPRESENTATION = "abcdefgh";
 
     private final List<Rank> ranks;
