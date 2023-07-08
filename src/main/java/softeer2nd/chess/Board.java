@@ -3,13 +3,9 @@ package softeer2nd.chess;
 import softeer2nd.chess.pieces.Piece;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import static softeer2nd.chess.pieces.Piece.*;
-import static softeer2nd.chess.pieces.Piece.Type.KING;
-import static softeer2nd.chess.pieces.Piece.Type.PAWN;
 
 /**
  * 체스 보드
@@ -35,17 +31,6 @@ public class Board {
     }
 
     /**
-     * 보드를 게임하기 전 상태로 초기화
-     * 먼저 전체를 빈칸으로 초기화한 후에 각 위치에 알맞은 기물을 배치한다.
-     */
-    public void initialize() {
-        initializeRank8();
-        initializePawnRank(7);
-        initializePawnRank(2);
-        initializeRank1();
-    }
-
-    /**
      * 보드를 빈칸으로 초기화한다.
      */
     public void initializeEmpty() {
@@ -53,6 +38,54 @@ public class Board {
         for (int rankNumber = Board.SIZE; rankNumber > 0; rankNumber--) {
             ranks.add(new Rank());
         }
+    }
+
+    /**
+     * 게임을 시작하기 위해 Rank 8에 해당하는 기물 배치
+     */
+    public void initializeRank8() {
+        Rank rank8 = getRankByRankNumber(8);
+        rank8.setPiece(0, createBlackRook());
+        rank8.setPiece(1, createBlackKnight());
+        rank8.setPiece(2, createBlackBishop());
+        rank8.setPiece(3, createBlackQueen());
+        rank8.setPiece(4, createBlackKing());
+        rank8.setPiece(5, createBlackBishop());
+        rank8.setPiece(6, createBlackKnight());
+        rank8.setPiece(7, createBlackRook());
+    }
+
+    /**
+     * 게임을 시작하기 위해 Pawn이 있는 Rank에 Pawn을 배치
+     * @param rankNumber Pawn이 놓일 Rank의 번호
+     */
+    public void initializePawnRank(int rankNumber) {
+        Rank pawnRank = getRankByRankNumber(rankNumber);
+
+        if (rankNumber == 7) {
+            for (int y = 0; y < Board.SIZE; y++) {
+                pawnRank.setPiece(y, createBlackPawn());
+            }
+        } else if (rankNumber == 2) {
+            for (int y = 0; y < Board.SIZE; y++) {
+                pawnRank.setPiece(y, createWhitePawn());
+            }
+        }
+    }
+
+    /**
+     * 게임을 시작하기 위해 Rank 1에 해당하는 기물 배치
+     */
+    public void initializeRank1() {
+        Rank rank1 = getRankByRankNumber(1);
+        rank1.setPiece(0, createWhiteRook());
+        rank1.setPiece(1, createWhiteKnight());
+        rank1.setPiece(2, createWhiteBishop());
+        rank1.setPiece(3, createWhiteQueen());
+        rank1.setPiece(4, createWhiteKing());
+        rank1.setPiece(5, createWhiteBishop());
+        rank1.setPiece(6, createWhiteKnight());
+        rank1.setPiece(7, createWhiteRook());
     }
 
     /**
@@ -82,82 +115,22 @@ public class Board {
     }
 
     /**
+     * 특정 인덱스에 있는 기물을 반환한다.
+     * @param x 보드의 x 인덱스
+     * @param y 보드의 y 인덱스
+     * @return 해당 인덱스에 있는 기물
+     */
+    public Piece findPiece(int x, int y) {
+        return ranks.get(x).getPiece(y);
+    }
+
+    /**
      * 특정 위치에 기물을 둔다.
      * @param position 보드의 위치좌표
      * @param piece 해당 위치에 두고자하는 기물
      */
     public void putPiece(Position position, Piece piece) {
         ranks.get(position.getX()).setPiece(position.getY(), piece);
-    }
-
-    /**
-     * 특정 위치에 있는 기물을 목적 위치로 옮긴다.
-     * @param source 옮기고자하는 기물의 특정 위치
-     * @param destination 기물이 이동할 목적 위치
-     */
-    public void move(Position source, Position destination) {
-        Piece sourcePiece = findPiece(source);
-        putPiece(destination, sourcePiece);
-        putPiece(source, Piece.createBlank());
-    }
-
-    /**
-     * 특정 색상의 기물의 점수를 계산한다.
-     * @param color 계산하고자하는 기물의 색상
-     * @return 점수
-     */
-    public double calculateScores(Color color) {
-        double scores = 0.0;
-        boolean existKing = false;
-        Piece piece;
-
-        for (int y = 0; y < Board.SIZE; y++) {
-            int pawnCount = 0;
-            for (int x = 0; x < Board.SIZE; x++) {
-                piece = ranks.get(x).getPiece(y);
-
-                if (piece.getType().equals(PAWN) && piece.getColor().equals(color)) {
-                    pawnCount++;
-                } else if (piece.getColor().equals(color)) {
-                    scores += piece.getType().getPoint();
-                }
-
-                if (piece.getType().equals(KING) && piece.getColor().equals(color)) {
-                    existKing = true;
-                }
-            }
-            scores += pawnCount > 1 ? PAWN.getPoint() * pawnCount : pawnCount;
-        }
-
-        if (existKing) {
-            return scores;
-        }
-        return 0.0;
-    }
-
-    /**
-     * 특정 색상의 기물을 점수 순으로 정렬하여 반환
-     * @param color 정렬하고자하는 기물의 색상
-     * @param reversed false이면 내림차순 정렬 true이면 오름차순 정렬
-     * @return 점수순으로 정렬된 기물
-     */
-    public List<Piece> getOrderedPieces(Color color, boolean reversed) {
-        PriorityQueue<Piece> heap;
-        if (reversed) {
-            heap = new PriorityQueue<>();
-        } else {
-            heap = new PriorityQueue<>(Comparator.reverseOrder());
-        }
-
-        for (int x = 0; x < Board.SIZE; x++) {
-            for (int y = 0; y < Board.SIZE; y++) {
-                Piece piece = ranks.get(x).getPiece(y);
-                if (!piece.isBlank() && piece.getColor().equals(color)) {
-                    heap.add(piece);
-                }
-            }
-        }
-        return new ArrayList<>(heap);
     }
 
     /**
@@ -177,55 +150,7 @@ public class Board {
      * @param rankNumber Rank 번호
      * @return 해당 Rank 번호에 위치하는 Rank
      */
-    public Rank getRankByRankNumber(int rankNumber) {
+    private Rank getRankByRankNumber(int rankNumber) {
         return ranks.get(Board.SIZE - rankNumber);
-    }
-
-    /**
-     * 게임을 시작하기 위해 Rank 8에 해당하는 기물 배치
-     */
-    private void initializeRank8() {
-        Rank rank8 = getRankByRankNumber(8);
-        rank8.setPiece(0, createBlackRook());
-        rank8.setPiece(1, createBlackKnight());
-        rank8.setPiece(2, createBlackBishop());
-        rank8.setPiece(3, createBlackQueen());
-        rank8.setPiece(4, createBlackKing());
-        rank8.setPiece(5, createBlackBishop());
-        rank8.setPiece(6, createBlackKnight());
-        rank8.setPiece(7, createBlackRook());
-    }
-
-    /**
-     * 게임을 시작하기 위해 Pawn이 있는 Rank에 Pawn을 배치
-     * @param rankNumber Pawn이 놓일 Rank의 번호
-     */
-    private void initializePawnRank(int rankNumber) {
-        Rank pawnRank = getRankByRankNumber(rankNumber);
-
-        if (rankNumber == 7) {
-            for (int y = 0; y < Board.SIZE; y++) {
-                pawnRank.setPiece(y, createBlackPawn());
-            }
-        } else if (rankNumber == 2) {
-            for (int y = 0; y < Board.SIZE; y++) {
-                pawnRank.setPiece(y, createWhitePawn());
-            }
-        }
-    }
-
-    /**
-     * 게임을 시작하기 위해 Rank 1에 해당하는 기물 배치
-     */
-    private void initializeRank1() {
-        Rank rank1 = getRankByRankNumber(1);
-        rank1.setPiece(0, createWhiteRook());
-        rank1.setPiece(1, createWhiteKnight());
-        rank1.setPiece(2, createWhiteBishop());
-        rank1.setPiece(3, createWhiteQueen());
-        rank1.setPiece(4, createWhiteKing());
-        rank1.setPiece(5, createWhiteBishop());
-        rank1.setPiece(6, createWhiteKnight());
-        rank1.setPiece(7, createWhiteRook());
     }
 }
