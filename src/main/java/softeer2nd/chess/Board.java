@@ -114,7 +114,7 @@ public class Board {
         Rank rank;
         for (int rankNumber = RANK_SIZE; rankNumber > 0; rankNumber--) {
             rank = getRankByRankNumber(rankNumber);
-            sb.append(rank.toString());
+            sb.append(rank.getRepresentationsWithRankNumber());
             appendNewLine(sb);
         }
         appendNewLine(sb);
