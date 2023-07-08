@@ -4,62 +4,100 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.pieces.Piece.Type;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.chess.pieces.Piece.Color.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
-import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 class BoardTest {
     private Board board;
-    private ChessView chessView;
 
     @BeforeEach
-    void createBoard() {
+    void setUp() {
         board = new Board();
     }
 
     @Test
-    @DisplayName("보드에는 Piece 객체만 추가될 수 있다.")
-    void addOtherObject() {
-        // 컴파일 에러 발생
-        // board.add(new Integer("7"));
+    @DisplayName("보드를 빈칸으로 초기화한다.")
+    void initializeEmpty() {
+        board.initializeEmpty();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                assertEquals(Piece.createBlank(), board.findPiece(i, j));
+            }
+        }
     }
 
     @Test
-    @DisplayName("체스판이 초기화 된다.")
-    void initialize() throws Exception {
-        chessView = new ChessView(board);
-        board.initialize();
-        String blankRank = "........";
-        assertEquals(
-                appendNewLine("RNBQKBNR  8") +
-                        appendNewLine("PPPPPPPP  7") +
-                        appendNewLine(blankRank + "  6") +
-                        appendNewLine(blankRank + "  5") +
-                        appendNewLine(blankRank + "  4") +
-                        appendNewLine(blankRank + "  3") +
-                        appendNewLine("pppppppp  2") +
-                        appendNewLine("rnbqkbnr  1") +
-                        appendNewLine("") +
-                        "abcdefgh",
-                chessView.showBoard());
+    @DisplayName("보드의 랭크8이 초기화된다.")
+    void initializeRank8() {
+        board.initializeRank8();
+
+        validateBlackPiece("a8", ROOK);
+        validateBlackPiece("b8", KNIGHT);
+        validateBlackPiece("c8", BISHOP);
+        validateBlackPiece("d8", QUEEN);
+        validateBlackPiece("e8", KING);
+        validateBlackPiece("f8", BISHOP);
+        validateBlackPiece("g8", KNIGHT);
+        validateBlackPiece("h8", ROOK);
     }
 
     @Test
-    @DisplayName("보드 초기화 후에 보드를 출력한다.")
-    void printBoardAfterInitialize() {
-        board.initialize();
+    @DisplayName("보드의 랭크7이 초기화된다.")
+    void initializeRank7() {
+        board.initializePawnRank(7);
+
+        validateBlackPiece("a7", PAWN);
+        validateBlackPiece("b7", PAWN);
+        validateBlackPiece("c7", PAWN);
+        validateBlackPiece("d7", PAWN);
+        validateBlackPiece("e7", PAWN);
+        validateBlackPiece("f7", PAWN);
+        validateBlackPiece("g7", PAWN);
+        validateBlackPiece("h7", PAWN);
     }
 
     @Test
-    @DisplayName("기물과 색에 해당하는 기물의 개수를 반환한다.")
-    void countOfPiece() {
-        board.initialize();
+    @DisplayName("보드의 랭크2가 초기화된다.")
+    void initializeRank2() {
+        board.initializePawnRank(2);
+
+        validateWhitePiece("a2", PAWN);
+        validateWhitePiece("b2", PAWN);
+        validateWhitePiece("c2", PAWN);
+        validateWhitePiece("d2", PAWN);
+        validateWhitePiece("e2", PAWN);
+        validateWhitePiece("f2", PAWN);
+        validateWhitePiece("g2", PAWN);
+        validateWhitePiece("h2", PAWN);
+    }
+
+    @Test
+    @DisplayName("보드의 랭크1이 초기화된다.")
+    void initializeRank1() {
+        board.initializeRank1();
+
+        validateWhitePiece("a1", ROOK);
+        validateWhitePiece("b1", KNIGHT);
+        validateWhitePiece("c1", BISHOP);
+        validateWhitePiece("d1", QUEEN);
+        validateWhitePiece("e1", KING);
+        validateWhitePiece("f1", BISHOP);
+        validateWhitePiece("g1", KNIGHT);
+        validateWhitePiece("h1", ROOK);
+    }
+
+    @Test
+    @DisplayName("보드에 놓인 기물의 개수가 반환된다.")
+    void getCountPiece() {
+        initializeGame();
+
         assertEquals(8, board.getCountPieces(WHITE, PAWN));
         assertEquals(8, board.getCountPieces(BLACK, PAWN));
         assertEquals(2, board.getCountPieces(WHITE, ROOK));
@@ -76,9 +114,9 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("주어진 위치의 기물을 조회한다.")
+    @DisplayName("기물을 조회한다.")
     void findPiece() {
-        board.initialize();
+        initializeGame();
 
         assertEquals(Piece.createBlackRook(), board.findPiece(Position.create("a8")));
         assertEquals(Piece.createBlackRook(), board.findPiece(Position.create("h8")));
@@ -99,10 +137,8 @@ class BoardTest {
 
     @Test
     @DisplayName("임의의 기물을 체스판 위에 추가한다.")
-    void move() {
-        board.initializeEmpty();
-        String input = "b5";
-        Position position = Position.create(input);
+    void putPiece() {
+        Position position = Position.create("b5");
         Piece piece = Piece.createBlackKing();
 
         board.putPiece(position, piece);
@@ -110,124 +146,140 @@ class BoardTest {
         assertEquals(piece, board.findPiece(position));
     }
 
-    @Test
-    @DisplayName("현재 놓인 기물로 점수를 계산한다.")
-    void calculateScores() {
-        board.initializeEmpty();
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+   @Test
+   @DisplayName("Board의 Representation을 얻을 수 있다.")
+   void RepresentationBoard() {
+        initializeGame();
 
-        assertEquals(15.0, board.calculateScores(BLACK), 0.01);
-        assertEquals(7.0, board.calculateScores(WHITE), 0.01);
-    }
+       List<List<Character>> representations = board.getRepresentations();
 
-    @Test
-    @DisplayName("Pawn은 같은 세로줄에 존재하는 개수에 따라 다른 점수가 매겨진다.")
-    void calculatePawnScores() {
-        board.initializeEmpty();
-        addPiece("a8", Piece.createWhitePawn());
-        addPiece("a7", Piece.createWhitePawn());
-        addPiece("a6", Piece.createWhitePawn());
-        addPiece("a5", Piece.createWhiteKing());
-        addPiece("b5", Piece.createWhitePawn());
-        addPiece("b7", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackPawn());
-        addPiece("c7", Piece.createBlackPawn());
-        addPiece("c6", Piece.createBlackPawn());
-        addPiece("c5", Piece.createBlackPawn());
-        addPiece("c4", Piece.createBlackPawn());
-        addPiece("c3", Piece.createBlackPawn());
-        addPiece("c2", Piece.createBlackPawn());
-        addPiece("c1", Piece.createBlackPawn());
+       assertEquals(List.of(
+               initializedRank8Representation(),
+               initializedBlackPawnRankRepresentation(),
+               initializedBlankRepresentation(),
+               initializedBlankRepresentation(),
+               initializedBlankRepresentation(),
+               initializedBlankRepresentation(),
+               initializedWhitePawnRankRepresentation(),
+               initializedRank1Representation()
+       ), representations);
+   }
 
-        assertEquals(2.5, board.calculateScores(WHITE), 0.01);
-        assertEquals(4.0, board.calculateScores(BLACK), 0.01);
-    }
-
-    @Test
-    @DisplayName("KING이 없거나 KING만 있다면 점수는 없다.")
-    void calculateNoKing() {
-        board.initializeEmpty();
-        addPiece("a1", Piece.createBlackQueen());
-        addPiece("a2", Piece.createWhiteKing());
-
-        assertEquals(0.0, board.calculateScores(BLACK), 0.01);
-        assertEquals(0.0, board.calculateScores(WHITE), 0.01);
-    }
-
-    @Test
-    @DisplayName("기물의 점수가 높은 순으로 정렬한다.")
-    void orderPieceNaturalOrder() {
-        board.initializeEmpty();
-        addPiece("a1", Piece.createBlackKing());
-        addPiece("b1", Piece.createBlackPawn());
-        addPiece("c1", Piece.createBlackBishop());
-        addPiece("d1", Piece.createBlackQueen());
-
-        List<Piece> orderedPieces = board.getOrderedPieces(BLACK, false);
-
-        List<Piece> expected = Arrays.asList(
-                Piece.createBlackQueen(),
-                Piece.createBlackBishop(),
-                Piece.createBlackPawn(),
-                Piece.createBlackKing()
+    private List<Character> initializedRank8Representation() {
+        return List.of(
+                ROOK.getBlackRepresentation(),
+                KNIGHT.getBlackRepresentation(),
+                BISHOP.getBlackRepresentation(),
+                QUEEN.getBlackRepresentation(),
+                KING.getBlackRepresentation(),
+                BISHOP.getBlackRepresentation(),
+                KNIGHT.getBlackRepresentation(),
+                ROOK.getBlackRepresentation()
         );
-        assertEquals(expected, orderedPieces);
     }
 
-    @Test
-    @DisplayName("기물의 점수가 낮은 순으로 정렬한다.")
-    void orderPieceReversedOrder() {
-        board.initializeEmpty();
-        addPiece("a1", Piece.createBlackKing());
-        addPiece("b1", Piece.createBlackPawn());
-        addPiece("c1", Piece.createBlackBishop());
-        addPiece("d1", Piece.createBlackQueen());
-
-        List<Piece> orderedPieces = board.getOrderedPieces(BLACK, true);
-
-        List<Piece> expected = Arrays.asList(
-                Piece.createBlackKing(),
-                Piece.createBlackPawn(),
-                Piece.createBlackBishop(),
-                Piece.createBlackQueen()
+    private List<Character> initializedBlackPawnRankRepresentation() {
+        return List.of(
+                PAWN.getBlackRepresentation(),
+                PAWN.getBlackRepresentation(),
+                PAWN.getBlackRepresentation(),
+                PAWN.getBlackRepresentation(),
+                PAWN.getBlackRepresentation(),
+                PAWN.getBlackRepresentation(),
+                PAWN.getBlackRepresentation(),
+                PAWN.getBlackRepresentation()
         );
-        assertEquals(expected, orderedPieces);
     }
 
-    @Test
-    @DisplayName("기물이 A -> B로 이동하면 B에 기물이 있다.")
-    void moveSource() {
-        board.initializeEmpty();
-        addPiece("a1", Piece.createBlackKing());
-        Position source = Position.create("a1");
-        Position destination = Position.create("c1");
-
-        board.move(source, destination);
-
-        assertEquals(board.findPiece(destination), Piece.createBlackKing());
+    private List<Character> initializedWhitePawnRankRepresentation() {
+        return List.of(
+                PAWN.getWhiteRepresentation(),
+                PAWN.getWhiteRepresentation(),
+                PAWN.getWhiteRepresentation(),
+                PAWN.getWhiteRepresentation(),
+                PAWN.getWhiteRepresentation(),
+                PAWN.getWhiteRepresentation(),
+                PAWN.getWhiteRepresentation(),
+                PAWN.getWhiteRepresentation()
+        );
     }
 
-    @Test
-    @DisplayName("기물이 A -> B로 이동하면 A에는 NO_PIECE 기물이 존재한다.")
-    void addedNoPiece() {
-        board.initializeEmpty();
-        addPiece("a1", Piece.createBlackKing());
-        Position source = Position.create("a1");
-        Position destination = Position.create("c1");
-
-        board.move(source, destination);
-
-        assertEquals(board.findPiece(source), Piece.createBlank());
+    private List<Character> initializedBlankRepresentation() {
+        return List.of(
+                NO_PIECE.getDefaultRepresentation(),
+                NO_PIECE.getDefaultRepresentation(),
+                NO_PIECE.getDefaultRepresentation(),
+                NO_PIECE.getDefaultRepresentation(),
+                NO_PIECE.getDefaultRepresentation(),
+                NO_PIECE.getDefaultRepresentation(),
+                NO_PIECE.getDefaultRepresentation(),
+                NO_PIECE.getDefaultRepresentation()
+        );
     }
 
-    private void addPiece(String expression, Piece piece) {
-        board.putPiece(Position.create(expression), piece);
+    private List<Character> initializedRank1Representation() {
+        return List.of(
+                ROOK.getWhiteRepresentation(),
+                KNIGHT.getWhiteRepresentation(),
+                BISHOP.getWhiteRepresentation(),
+                QUEEN.getWhiteRepresentation(),
+                KING.getWhiteRepresentation(),
+                BISHOP.getWhiteRepresentation(),
+                KNIGHT.getWhiteRepresentation(),
+                ROOK.getWhiteRepresentation()
+        );
+    }
+
+    private void validateBlackPiece(String positionString, Type type) {
+        switch (type) {
+            case ROOK:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackRook());
+                break;
+            case KING:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackKing());
+                break;
+            case PAWN:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackPawn());
+                break;
+            case KNIGHT:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackKnight());
+                break;
+            case BISHOP:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackBishop());
+                break;
+            case QUEEN:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackQueen());
+                break;
+        }
+    }
+
+    private void validateWhitePiece(String positionString, Type type) {
+        switch (type) {
+            case ROOK:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteRook());
+                break;
+            case KING:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteKing());
+                break;
+            case PAWN:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhitePawn());
+                break;
+            case KNIGHT:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteKnight());
+                break;
+            case BISHOP:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteBishop());
+                break;
+            case QUEEN:
+                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteQueen());
+                break;
+        }
+    }
+
+    private void initializeGame() {
+        board.initializeRank8();
+        board.initializePawnRank(7);
+        board.initializePawnRank(2);
+        board.initializeRank1();
     }
 }

@@ -11,7 +11,7 @@ class PieceTest {
 
     @Test
     @DisplayName("기물이 생성되어야 한다.")
-    public void create_piece() {
+    public void createPiece() {
         verifyPiece(createWhitePawn(), createBlackPawn(), PAWN);
         verifyPiece(createWhiteKnight(), createBlackKnight(), KNIGHT);
         verifyPiece(createWhiteRook(), createBlackRook(), ROOK);
