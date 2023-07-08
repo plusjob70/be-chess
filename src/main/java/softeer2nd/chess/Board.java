@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import static softeer2nd.chess.pieces.Piece.*;
-import static softeer2nd.chess.pieces.Piece.Type.*;
-import static softeer2nd.chess.utils.StringUtils.appendNewLine;
+import static softeer2nd.chess.pieces.Piece.Type.KING;
+import static softeer2nd.chess.pieces.Piece.Type.PAWN;
 
 /**
  * 체스 보드
@@ -47,12 +47,11 @@ public class Board {
 
     /**
      * 보드를 빈칸으로 초기화한다.
-     * ranks에 저장되는 Rank의 rankNumber는 순서대로 8, 7, ..., 2, 1이다.
      */
     public void initializeEmpty() {
         ranks.clear();
         for (int rankNumber = Board.SIZE; rankNumber > 0; rankNumber--) {
-            ranks.add(new Rank(rankNumber));
+            ranks.add(new Rank());
         }
     }
 
@@ -162,21 +161,24 @@ public class Board {
     }
 
     /**
-     * 보드를 출력하기 위한 문자열을 반환
-     * @return 보드를 출력하기 위한 문자열
+     * 각 Rank의 representation을 반환
+     * @return 각 Rank의 representation
      */
-    public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-
-        Rank rank;
-        for (int rankNumber = Board.SIZE; rankNumber > 0; rankNumber--) {
-            rank = getRankByRankNumber(rankNumber);
-            sb.append(rank.getRepresentationsWithRankNumber());
-            appendNewLine(sb);
+    public List<List<Character>> getRepresentations() {
+        List<List<Character>> boardRepresentations = new ArrayList<>();
+        for (Rank rank : ranks) {
+            boardRepresentations.add(rank.getRepresentations());
         }
-        appendNewLine(sb);
-        sb.append("abcdefgh");
-        return sb.toString();
+        return boardRepresentations;
+    }
+
+    /**
+     * Rank 번호로 Rank에 접근
+     * @param rankNumber Rank 번호
+     * @return 해당 Rank 번호에 위치하는 Rank
+     */
+    public Rank getRankByRankNumber(int rankNumber) {
+        return ranks.get(Board.SIZE - rankNumber);
     }
 
     /**
@@ -225,14 +227,5 @@ public class Board {
         rank1.setPiece(5, createWhiteBishop());
         rank1.setPiece(6, createWhiteKnight());
         rank1.setPiece(7, createWhiteRook());
-    }
-
-    /**
-     * Rank 번호로 Rank에 접근
-     * @param rankNumber Rank 번호
-     * @return 해당 Rank 번호에 위치하는 Rank
-     */
-    private Rank getRankByRankNumber(int rankNumber) {
-        return ranks.get(Board.SIZE - rankNumber);
     }
 }

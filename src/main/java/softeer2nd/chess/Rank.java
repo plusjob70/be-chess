@@ -22,18 +22,10 @@ public class Rank {
     private final List<Piece> pieces;
 
     /**
-     * Rank 번호
+     * pieces는 SIZE_PIECE의 개수만큼 빈칸이 추가된다.
      */
-    private final int rankNumber;
-
-    /**
-     * Rank 생성자는 Rank 번호를 인자로 받는다.
-     *
-     * @param rankNumber Rank 번호
-     */
-    public Rank(int rankNumber) {
+    public Rank() {
         this.pieces = new ArrayList<>();
-        this.rankNumber = rankNumber;
         for (int i = 0; i < SIZE_PIECES; i++) {
             this.pieces.add(Piece.createBlank());
         }
@@ -78,29 +70,21 @@ public class Rank {
     }
 
     /**
-     * pieces에 있는 기물들의 representation을 String으로 반환
-     * @return pieces에 있는 기물들의 representation
+     * pieces에 있는 기물들의 representation을 List로 반환
+     * @return 기물의 representation이 담긴 List
      */
-    public String getRepresentations() {
-        StringBuilder sb = new StringBuilder();
+    public List<Character> getRepresentations() {
+        List<Character> representations = new ArrayList<>();
         for (Piece piece : pieces) {
             if (piece.isWhite()) {
-                sb.append(piece.getType().getWhiteRepresentation());
+                representations.add(piece.getType().getWhiteRepresentation());
             } else if (piece.isBlack()) {
-                sb.append(piece.getType().getBlackRepresentation());
-            } else if (piece.isBlank()) {
-                sb.append(piece.getType().getDefaultRepresentation());
+                representations.add(piece.getType().getBlackRepresentation());
+            } else {
+                representations.add(piece.getType().getDefaultRepresentation());
             }
         }
-        return sb.toString();
-    }
-
-    /**
-     * pieces에 있는 기물들의 representation을 Rank 번호와 함께 String으로 반환
-     * @return pieces에 있는 기물들의 representation + Rank 번호
-     */
-    public String getRepresentationsWithRankNumber() {
-        return getRepresentations() + "  " + rankNumber;
+        return representations;
     }
 
     /**

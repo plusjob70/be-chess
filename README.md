@@ -47,7 +47,8 @@
   - [X] StringUtils 주석 추가
   - [X] 기물의 이동 구현 
   - [X] move 명령 추가 
-  - [ ] Board 클래스 분리 
+  - [X] Board 클래스의 View 부분을 ChessView로 분리 
+  - [ ] Board 클래스의 로직 부분을 ChessGame으로 분리
   - [ ] King 기물의 이동 구현 
   - [ ] Queen 기물의 이동 구현 
   - [ ] if문 제거하기 위한 다형성 

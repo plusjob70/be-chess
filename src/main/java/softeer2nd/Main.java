@@ -1,6 +1,7 @@
 package softeer2nd;
 
 import softeer2nd.chess.Board;
+import softeer2nd.chess.ChessView;
 import softeer2nd.chess.Position;
 
 import java.util.Scanner;
@@ -14,6 +15,7 @@ public class Main {
     public static void main(String[] args) {
         String input;
         Board board = new Board();
+        ChessView chessView = new ChessView(board);
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -29,7 +31,7 @@ public class Main {
                 } else if (input.equals(END_COMMAND)) {
                     break;
                 }
-                System.out.println(board.showBoard());
+                System.out.println(chessView.showBoard());
             }
         } catch (Exception ignored) {
 

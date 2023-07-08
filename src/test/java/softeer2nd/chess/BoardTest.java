@@ -16,6 +16,7 @@ import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 class BoardTest {
     private Board board;
+    private ChessView chessView;
 
     @BeforeEach
     void createBoard() {
@@ -32,6 +33,7 @@ class BoardTest {
     @Test
     @DisplayName("체스판이 초기화 된다.")
     void initialize() throws Exception {
+        chessView = new ChessView(board);
         board.initialize();
         String blankRank = "........";
         assertEquals(
@@ -45,7 +47,7 @@ class BoardTest {
                         appendNewLine("rnbqkbnr  1") +
                         appendNewLine("") +
                         "abcdefgh",
-                board.showBoard());
+                chessView.showBoard());
     }
 
     @Test
