@@ -17,8 +17,8 @@ public class StringUtils {
 
     /**
      * 인자로 받은 문자열에 줄바꿈하여 반환한다.
-     * @param string 문자열
-     * @return 줄바꿈된 문자열
+     * @param string 줄바꿈 할 문자열
+     * @return 줄바꿈 된 문자열
      */
     public static String appendNewLine(String string) {
         return string + NEWLINE;
@@ -26,7 +26,7 @@ public class StringUtils {
 
     /**
      * StringBuilder 객체에 줄바꿈을 추가한다.
-     * @param stringBuilder
+     * @param stringBuilder 줄바꿈 할 문자열
      */
     public static void appendNewLine(StringBuilder stringBuilder) {
         stringBuilder.append(NEWLINE);
