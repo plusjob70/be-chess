@@ -46,7 +46,7 @@
   - [X] Position 리팩토링
   - [X] StringUtils 주석 추가
   - [X] 기물의 이동 구현 
-  - [ ] move 명령 추가 
+  - [X] move 명령 추가 
   - [ ] Board 클래스 분리 
   - [ ] King 기물의 이동 구현 
   - [ ] Queen 기물의 이동 구현 
