@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import static softeer2nd.chess.pieces.Piece.*;
+import static softeer2nd.chess.pieces.Piece.Color.BLACK;
+import static softeer2nd.chess.pieces.Piece.Color.WHITE;
 import static softeer2nd.chess.pieces.Piece.Type.KING;
 import static softeer2nd.chess.pieces.Piece.Type.PAWN;
 
@@ -16,9 +18,11 @@ import static softeer2nd.chess.pieces.Piece.Type.PAWN;
  */
 public class ChessGame {
     private final Board board;
+    private Color turn;
 
     public ChessGame(Board board) {
         this.board = board;
+        this.turn = WHITE;
     }
 
     /**
@@ -31,6 +35,7 @@ public class ChessGame {
         board.initializePawnRank(7);
         board.initializePawnRank(2);
         board.initializeRank1();
+        this.turn = WHITE;
     }
 
     /**
@@ -39,9 +44,14 @@ public class ChessGame {
      * @param destination 기물이 이동할 목적 위치
      */
     public void move(Position source, Position destination) {
-        Piece sourcePiece = board.findPiece(source);
-        board.putPiece(destination, sourcePiece);
-        board.putPiece(source, Piece.createBlank());
+        Piece piece = board.findPiece(source);
+        if (isTurn(piece) && piece.verifyMovePosition(source, destination)) {
+            board.putPiece(destination, piece);
+            board.putPiece(source, Piece.createBlank());
+            flipTurn();
+        } else {
+            throw new RuntimeException("해당 기물을 옮길 수 없습니다.");
+        }
     }
 
     /**
@@ -101,5 +111,21 @@ public class ChessGame {
             }
         }
         return new ArrayList<>(heap);
+    }
+
+    /**
+     * 턴이 종료되면 차례가 바뀐다.
+     */
+    private void flipTurn() {
+        this.turn = this.turn.equals(WHITE) ? BLACK : WHITE;
+    }
+
+    /**
+     * 해당 기물이 현재 움직일 수 있는 차례인지 확인
+     * @param piece 움직일 기물
+     * @return true if 해당 색깔의 차례 else false
+     */
+    private boolean isTurn(Piece piece) {
+        return piece.getColor().equals(this.turn);
     }
 }
