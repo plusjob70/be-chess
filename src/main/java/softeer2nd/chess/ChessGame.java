@@ -1,5 +1,7 @@
 package softeer2nd.chess;
 
+import softeer2nd.chess.exceptions.IllegalMoveException;
+import softeer2nd.chess.exceptions.IllegalTurnException;
 import softeer2nd.chess.pieces.Piece;
 
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import static softeer2nd.chess.pieces.Piece.*;
+import static softeer2nd.chess.pieces.Piece.Color;
 import static softeer2nd.chess.pieces.Piece.Color.BLACK;
 import static softeer2nd.chess.pieces.Piece.Color.WHITE;
 import static softeer2nd.chess.pieces.Piece.Type.KING;
@@ -18,11 +20,14 @@ import static softeer2nd.chess.pieces.Piece.Type.PAWN;
  */
 public class ChessGame {
     private final Board board;
+
+    /**
+     * 기물을 움직일 차례의 색상
+     */
     private Color turn;
 
     public ChessGame(Board board) {
         this.board = board;
-        this.turn = WHITE;
     }
 
     /**
@@ -45,14 +50,21 @@ public class ChessGame {
      */
     public void move(Position source, Position destination) {
         Piece piece = board.findPiece(source);
-        if (isTurn(piece) && piece.verifyMovePosition(source, destination)) {
+        if (piece.isBlank()) {
+            throw new IllegalMoveException("빈칸은 옮길 수 없습니다.");
+        }
+        if (!isTurn(piece)) {
+            throw new IllegalTurnException(piece.getColor() + "의 차례가 아닙니다.");
+        }
+        if (piece.verifyMovePosition(source, destination)) {
             board.putPiece(destination, piece);
             board.putPiece(source, Piece.createBlank());
             flipTurn();
-        } else {
-            throw new RuntimeException("해당 기물을 옮길 수 없습니다.");
+            return;
         }
+        throw new IllegalMoveException("해당 기물을 옮길 수 없습니다.");
     }
+
 
     /**
      * 특정 색상의 기물의 점수를 계산한다.

@@ -117,24 +117,21 @@ class ChessGameTest {
     @Test
     @DisplayName("기물이 A -> B로 이동하면 B에 기물이 있다.")
     void moveSource() {
-        board.initializeEmpty();
-        addPiece("a1", Piece.createWhiteKing());
-
-        Position source = Position.create("a1");
-        Position destination = Position.create("a2");
+        chessGame.initialize();
+        Position source = Position.create("a2");
+        Position destination = Position.create("a3");
 
         chessGame.move(source, destination);
 
-        assertEquals(board.findPiece(destination), Piece.createWhiteKing());
+        assertEquals(board.findPiece(destination), Piece.createWhitePawn());
     }
 
     @Test
     @DisplayName("기물이 A -> B로 이동하면 A에는 NO_PIECE 기물이 존재한다.")
     void addedNoPiece() {
-        board.initializeEmpty();
-        addPiece("a1", Piece.createBlackKing());
-        Position source = Position.create("a1");
-        Position destination = Position.create("b1");
+        chessGame.initialize();
+        Position source = Position.create("a2");
+        Position destination = Position.create("b3");
 
         chessGame.move(source, destination);
 

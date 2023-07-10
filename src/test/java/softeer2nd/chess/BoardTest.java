@@ -3,6 +3,7 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.exceptions.BoardIndexOutOfRangeException;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Type;
 
@@ -128,11 +129,9 @@ class BoardTest {
     @DisplayName("잘못된 인덱스로 접근시 오류가 발생한다.")
     void IllegalIndex() {
         assertThatThrownBy(() -> board.findPiece(Position.create("a9")))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BoardIndexOutOfRangeException.class);
         assertThatThrownBy(() -> board.findPiece(Position.create("i1")))
-                .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> board.findPiece(Position.create("1a")))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BoardIndexOutOfRangeException.class);
     }
 
     @Test

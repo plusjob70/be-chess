@@ -1,13 +1,13 @@
 package softeer2nd.chess;
 
+import softeer2nd.chess.exceptions.BoardIndexOutOfRangeException;
+import softeer2nd.chess.exceptions.IllegalIndexExpressionException;
+
 /**
  * 체스 보드에 사용되는 위치 좌표
  */
 public class Position {
-    /**
-     * 체스 보드의 위치 좌표로 사용될 수 있는 정규식
-     */
-    private static final String LEGAL_EXPRESSION_POSITION = "[a-h][1-8]";
+    public static final String EXPRESSION_POSITION = "[a-z]\\d+";
 
     /**
      * 체스 보드의 x 좌표(row)
@@ -66,18 +66,22 @@ public class Position {
      * @param y y좌표
      * @return true if valid else false
      */
-    public static boolean isValid(int x, int y) {
+    public static boolean isRange(int x, int y) {
         return 0 <= x && x < Board.SIZE && 0 <= y && y < Board.SIZE;
     }
 
     /**
      * 체스 보드 위치 표현식 유효성 검사
      * @param expression 표현식
-     * @throws IllegalArgumentException 위치 표현식이 아니거나 범위를 벗어날 때
+     * @throws IllegalIndexExpressionException 위치 표현식이 아닐 때
+     * @throws BoardIndexOutOfRangeException 위치 표현식이 체스 보드의 인덱스 범위를 벗어날 때
      */
     private static void validateExpression(String expression) {
-        if (!expression.matches(LEGAL_EXPRESSION_POSITION)) {
-            throw new IllegalArgumentException("잘못된 위치입니다.");
+        if (!expression.matches(EXPRESSION_POSITION)) {
+            throw new IllegalIndexExpressionException(expression);
+        }
+        if (!expression.matches("[a-h][1-8]")) {
+            throw new BoardIndexOutOfRangeException(expression);
         }
     }
 
@@ -85,11 +89,11 @@ public class Position {
      * 체스 보드 인덱스 유효성 검사
      * @param x x 좌표
      * @param y y 좌표
-     * @throws IllegalArgumentException 인덱스가 범위를 벗어날 때
+     * @throws BoardIndexOutOfRangeException 인덱스가 범위를 벗어날 때
      */
     private static void validateIndex(int x, int y) {
-        if (!isValid(x, y)) {
-            throw new IllegalArgumentException("잘못된 위치입니다.");
+        if (!isRange(x, y)) {
+            throw new BoardIndexOutOfRangeException(x, y);
         }
     }
 
