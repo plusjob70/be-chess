@@ -48,9 +48,6 @@ public abstract class Piece implements Comparable<Piece> {
     public boolean isTypeOf(Type type) {
         return this.type.equals(type);
     }
-    public boolean isTypeOf(Piece target) {
-        return this.type.equals(target.type);
-    }
 
     public boolean isColorOf(Color color) {
         return this.color.equals(color);
@@ -87,17 +84,11 @@ public abstract class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece other) {
-        double diff = this.type.point - other.type.point;
-        if (diff > 0) {
-            return 1;
-        } else if (diff < 0) {
-            return -1;
-        }
-        return 0;
+        return Double.compare(this.type.point, other.type.point);
     }
 
     public enum Color {
-        WHITE, BLACK, NO_COLOR;
+        WHITE, BLACK, NO_COLOR
     }
 
     public enum Type {
