@@ -3,19 +3,27 @@ package softeer2nd.chess.pieces;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.Board;
+import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.Position;
+import softeer2nd.chess.exceptions.IllegalMoveException;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static softeer2nd.chess.pieces.PieceFactory.createBlackPawn;
+import static softeer2nd.chess.pieces.PieceFactory.createWhitePawn;
 
 class PawnTest {
     private Piece whitePawn;
     private Piece blackPawn;
+    private Board board;
+    private ChessGame chessGame;
 
     @BeforeEach
     void setUp() {
-        whitePawn = Piece.createWhitePawn();
-        blackPawn = Piece.createBlackPawn();
+        whitePawn = createWhitePawn();
+        blackPawn = createBlackPawn();
+        board = new Board();
+        chessGame = new ChessGame(board);
     }
 
     @Test
@@ -23,7 +31,7 @@ class PawnTest {
     void whitePawnFirstTwoStep() {
         Position b2 = Position.create("b2");
         Position b4 = Position.create("b4");
-        assertTrue(whitePawn.verifyMovePosition(b2, b4));
+        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, b4));
     }
 
     @Test
@@ -31,7 +39,8 @@ class PawnTest {
     void whitePawnNotFirstTwoStep() {
         Position b3 = Position.create("b3");
         Position b5 = Position.create("b5");
-        assertFalse(whitePawn.verifyMovePosition(b3, b5));
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> whitePawn.verifyMovePosition(b3, b5))
+                .isInstanceOf(IllegalMoveException.class);
     }
 
     @Test
@@ -39,7 +48,7 @@ class PawnTest {
     void whitePawnFirstOneStep() {
         Position b2 = Position.create("b2");
         Position b4 = Position.create("b3");
-        assertTrue(whitePawn.verifyMovePosition(b2, b4));
+        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, b4));
     }
 
     @Test
@@ -47,7 +56,7 @@ class PawnTest {
     void whitePawnNotFirstOneStep() {
         Position b3 = Position.create("b3");
         Position b4 = Position.create("b4");
-        assertTrue(whitePawn.verifyMovePosition(b3, b4));
+        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b3, b4));
     }
 
     @Test
@@ -56,8 +65,8 @@ class PawnTest {
         Position b2 = Position.create("b2");
         Position a3 = Position.create("a3");
         Position c3 = Position.create("c3");
-        assertTrue(whitePawn.verifyMovePosition(b2, a3));
-        assertTrue(whitePawn.verifyMovePosition(b2, c3));
+        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, a3));
+        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, c3));
     }
 
     @Test
@@ -66,8 +75,8 @@ class PawnTest {
         Position b3 = Position.create("b3");
         Position a4 = Position.create("a4");
         Position c4 = Position.create("c4");
-        assertTrue(whitePawn.verifyMovePosition(b3, a4));
-        assertTrue(whitePawn.verifyMovePosition(b3, c4));
+        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b3, a4));
+        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b3, c4));
     }
 
     @Test
@@ -75,7 +84,8 @@ class PawnTest {
     void whitePawnCannotMoveBackward() {
         Position b2 = Position.create("b2");
         Position b1 = Position.create("b1");
-        assertFalse(whitePawn.verifyMovePosition(b2, b1));
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> whitePawn.verifyMovePosition(b2, b1))
+                .isInstanceOf(IllegalMoveException.class);
     }
 
     @Test
@@ -83,7 +93,7 @@ class PawnTest {
     void blackPawnFirstTwoStep() {
         Position b7 = Position.create("b7");
         Position b5 = Position.create("b5");
-        assertTrue(blackPawn.verifyMovePosition(b7, b5));
+        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, b5));
     }
 
     @Test
@@ -91,7 +101,8 @@ class PawnTest {
     void blackPawnNotFirstTwoStep() {
         Position b6 = Position.create("b6");
         Position b4 = Position.create("b4");
-        assertFalse(blackPawn.verifyMovePosition(b6, b4));
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> blackPawn.verifyMovePosition(b6, b4))
+                .isInstanceOf(IllegalMoveException.class);
     }
 
     @Test
@@ -99,7 +110,7 @@ class PawnTest {
     void blackPawnFirstOneStep() {
         Position b7 = Position.create("b7");
         Position b6 = Position.create("b6");
-        assertTrue(blackPawn.verifyMovePosition(b7, b6));
+        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, b6));
     }
 
     @Test
@@ -107,7 +118,7 @@ class PawnTest {
     void blackPawnNotFirstOneStep() {
         Position b6 = Position.create("b6");
         Position b5 = Position.create("b5");
-        assertTrue(blackPawn.verifyMovePosition(b6, b5));
+        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b6, b5));
     }
 
     @Test
@@ -116,8 +127,8 @@ class PawnTest {
         Position b7 = Position.create("b7");
         Position a6 = Position.create("a6");
         Position c6 = Position.create("c6");
-        assertTrue(blackPawn.verifyMovePosition(b7, a6));
-        assertTrue(blackPawn.verifyMovePosition(b7, c6));
+        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, a6));
+        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, c6));
     }
 
     @Test
@@ -126,8 +137,8 @@ class PawnTest {
         Position b6 = Position.create("b6");
         Position a5 = Position.create("a5");
         Position c5 = Position.create("c5");
-        assertTrue(blackPawn.verifyMovePosition(b6, a5));
-        assertTrue(blackPawn.verifyMovePosition(b6, c5));
+        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b6, a5));
+        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b6, c5));
     }
 
     @Test
@@ -135,6 +146,7 @@ class PawnTest {
     void blackPawnCannotMoveBackward() {
         Position b7 = Position.create("b7");
         Position b8 = Position.create("b8");
-        assertFalse(blackPawn.verifyMovePosition(b7, b8));
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> blackPawn.verifyMovePosition(b7, b8))
+                .isInstanceOf(IllegalMoveException.class);
     }
 }

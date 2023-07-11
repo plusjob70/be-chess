@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.chess.pieces.Piece.Color.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
+import static softeer2nd.chess.pieces.PieceFactory.*;
 
 class BoardTest {
     private Board board;
@@ -29,7 +30,7 @@ class BoardTest {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                assertEquals(Piece.createBlank(), board.findPiece(i, j));
+                assertEquals(createBlank(), board.findPiece(i, j));
             }
         }
     }
@@ -119,10 +120,10 @@ class BoardTest {
     void findPiece() {
         initializeGame();
 
-        assertEquals(Piece.createBlackRook(), board.findPiece(Position.create("a8")));
-        assertEquals(Piece.createBlackRook(), board.findPiece(Position.create("h8")));
-        assertEquals(Piece.createWhiteRook(), board.findPiece(Position.create("a1")));
-        assertEquals(Piece.createWhiteRook(), board.findPiece(Position.create("h1")));
+        assertEquals(createBlackRook(), board.findPiece(Position.create("a8")));
+        assertEquals(createBlackRook(), board.findPiece(Position.create("h8")));
+        assertEquals(createWhiteRook(), board.findPiece(Position.create("a1")));
+        assertEquals(createWhiteRook(), board.findPiece(Position.create("h1")));
     }
 
     @Test
@@ -138,7 +139,7 @@ class BoardTest {
     @DisplayName("임의의 기물을 체스판 위에 추가한다.")
     void putPiece() {
         Position position = Position.create("b5");
-        Piece piece = Piece.createBlackKing();
+        Piece piece = createBlackKing();
 
         board.putPiece(position, piece);
 
@@ -232,22 +233,22 @@ class BoardTest {
     private void validateBlackPiece(String positionString, Type type) {
         switch (type) {
             case ROOK:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackRook());
+                assertEquals(board.findPiece(Position.create(positionString)), createBlackRook());
                 break;
             case KING:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackKing());
+                assertEquals(board.findPiece(Position.create(positionString)), createBlackKing());
                 break;
             case PAWN:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackPawn());
+                assertEquals(board.findPiece(Position.create(positionString)), createBlackPawn());
                 break;
             case KNIGHT:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackKnight());
+                assertEquals(board.findPiece(Position.create(positionString)), createBlackKnight());
                 break;
             case BISHOP:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackBishop());
+                assertEquals(board.findPiece(Position.create(positionString)), createBlackBishop());
                 break;
             case QUEEN:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createBlackQueen());
+                assertEquals(board.findPiece(Position.create(positionString)), createBlackQueen());
                 break;
         }
     }
@@ -255,22 +256,22 @@ class BoardTest {
     private void validateWhitePiece(String positionString, Type type) {
         switch (type) {
             case ROOK:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteRook());
+                assertEquals(board.findPiece(Position.create(positionString)), createWhiteRook());
                 break;
             case KING:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteKing());
+                assertEquals(board.findPiece(Position.create(positionString)), createWhiteKing());
                 break;
             case PAWN:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhitePawn());
+                assertEquals(board.findPiece(Position.create(positionString)), createWhitePawn());
                 break;
             case KNIGHT:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteKnight());
+                assertEquals(board.findPiece(Position.create(positionString)), createWhiteKnight());
                 break;
             case BISHOP:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteBishop());
+                assertEquals(board.findPiece(Position.create(positionString)), createWhiteBishop());
                 break;
             case QUEEN:
-                assertEquals(board.findPiece(Position.create(positionString)), Piece.createWhiteQueen());
+                assertEquals(board.findPiece(Position.create(positionString)), createWhiteQueen());
                 break;
         }
     }

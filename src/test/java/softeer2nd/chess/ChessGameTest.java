@@ -11,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.chess.pieces.Piece.Color.BLACK;
 import static softeer2nd.chess.pieces.Piece.Color.WHITE;
+import static softeer2nd.chess.pieces.PieceFactory.*;
 
 class ChessGameTest {
 
@@ -27,14 +28,14 @@ class ChessGameTest {
     @DisplayName("현재 놓인 기물로 점수를 계산한다.")
     void calculateScores() {
         board.initializeEmpty();
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("b6", createBlackPawn());
+        addPiece("e6", createBlackQueen());
+        addPiece("b8", createBlackKing());
+        addPiece("c8", createBlackRook());
+        addPiece("f2", createWhitePawn());
+        addPiece("g2", createWhitePawn());
+        addPiece("e1", createWhiteRook());
+        addPiece("f1", createWhiteKing());
 
         assertEquals(15.0, chessGame.calculateScores(BLACK), 0.01);
         assertEquals(7.0, chessGame.calculateScores(WHITE), 0.01);
@@ -44,20 +45,20 @@ class ChessGameTest {
     @DisplayName("Pawn은 같은 세로줄에 존재하는 개수에 따라 다른 점수가 매겨진다.")
     void calculatePawnScores() {
         board.initializeEmpty();
-        addPiece("a8", Piece.createWhitePawn());
-        addPiece("a7", Piece.createWhitePawn());
-        addPiece("a6", Piece.createWhitePawn());
-        addPiece("a5", Piece.createWhiteKing());
-        addPiece("b5", Piece.createWhitePawn());
-        addPiece("b7", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackPawn());
-        addPiece("c7", Piece.createBlackPawn());
-        addPiece("c6", Piece.createBlackPawn());
-        addPiece("c5", Piece.createBlackPawn());
-        addPiece("c4", Piece.createBlackPawn());
-        addPiece("c3", Piece.createBlackPawn());
-        addPiece("c2", Piece.createBlackPawn());
-        addPiece("c1", Piece.createBlackPawn());
+        addPiece("a8", createWhitePawn());
+        addPiece("a7", createWhitePawn());
+        addPiece("a6", createWhitePawn());
+        addPiece("a5", createWhiteKing());
+        addPiece("b5", createWhitePawn());
+        addPiece("b7", createBlackKing());
+        addPiece("c8", createBlackPawn());
+        addPiece("c7", createBlackPawn());
+        addPiece("c6", createBlackPawn());
+        addPiece("c5", createBlackPawn());
+        addPiece("c4", createBlackPawn());
+        addPiece("c3", createBlackPawn());
+        addPiece("c2", createBlackPawn());
+        addPiece("c1", createBlackPawn());
 
         assertEquals(2.5, chessGame.calculateScores(WHITE), 0.01);
         assertEquals(4.0, chessGame.calculateScores(BLACK), 0.01);
@@ -67,8 +68,8 @@ class ChessGameTest {
     @DisplayName("KING이 없거나 KING만 있다면 점수는 없다.")
     void calculateNoKing() {
         board.initializeEmpty();
-        addPiece("a1", Piece.createBlackQueen());
-        addPiece("a2", Piece.createWhiteKing());
+        addPiece("a1", createBlackQueen());
+        addPiece("a2", createWhiteKing());
 
         assertEquals(0.0, chessGame.calculateScores(BLACK), 0.01);
         assertEquals(0.0, chessGame.calculateScores(WHITE), 0.01);
@@ -78,18 +79,18 @@ class ChessGameTest {
     @DisplayName("기물의 점수가 높은 순으로 정렬한다.")
     void orderPieceNaturalOrder() {
         board.initializeEmpty();
-        addPiece("a1", Piece.createBlackKing());
-        addPiece("b1", Piece.createBlackPawn());
-        addPiece("c1", Piece.createBlackBishop());
-        addPiece("d1", Piece.createBlackQueen());
+        addPiece("a1", createBlackKing());
+        addPiece("b1", createBlackPawn());
+        addPiece("c1", createBlackBishop());
+        addPiece("d1", createBlackQueen());
 
         List<Piece> orderedPieces = chessGame.getOrderedPieces(BLACK, false);
 
         List<Piece> expected = Arrays.asList(
-                Piece.createBlackQueen(),
-                Piece.createBlackBishop(),
-                Piece.createBlackPawn(),
-                Piece.createBlackKing()
+                createBlackQueen(),
+                createBlackBishop(),
+                createBlackPawn(),
+                createBlackKing()
         );
         assertEquals(expected, orderedPieces);
     }
@@ -98,18 +99,18 @@ class ChessGameTest {
     @DisplayName("기물의 점수가 낮은 순으로 정렬한다.")
     void orderPieceReversedOrder() {
         board.initializeEmpty();
-        addPiece("a1", Piece.createBlackKing());
-        addPiece("b1", Piece.createBlackPawn());
-        addPiece("c1", Piece.createBlackBishop());
-        addPiece("d1", Piece.createBlackQueen());
+        addPiece("a1", createBlackKing());
+        addPiece("b1", createBlackPawn());
+        addPiece("c1", createBlackBishop());
+        addPiece("d1", createBlackQueen());
 
         List<Piece> orderedPieces = chessGame.getOrderedPieces(BLACK, true);
 
         List<Piece> expected = Arrays.asList(
-                Piece.createBlackKing(),
-                Piece.createBlackPawn(),
-                Piece.createBlackBishop(),
-                Piece.createBlackQueen()
+                createBlackKing(),
+                createBlackPawn(),
+                createBlackBishop(),
+                createBlackQueen()
         );
         assertEquals(expected, orderedPieces);
     }
@@ -123,7 +124,7 @@ class ChessGameTest {
 
         chessGame.move(source, destination);
 
-        assertEquals(board.findPiece(destination), Piece.createWhitePawn());
+        assertEquals(board.findPiece(destination), createWhitePawn());
     }
 
     @Test
@@ -135,7 +136,7 @@ class ChessGameTest {
 
         chessGame.move(source, destination);
 
-        assertEquals(board.findPiece(source), Piece.createBlank());
+        assertEquals(board.findPiece(source), createBlank());
     }
 
     private void addPiece(String expression, Piece piece) {

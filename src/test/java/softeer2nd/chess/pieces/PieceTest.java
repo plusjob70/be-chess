@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static softeer2nd.chess.pieces.Piece.*;
 import static softeer2nd.chess.pieces.Piece.Type.*;
+import static softeer2nd.chess.pieces.PieceFactory.*;
 
 class PieceTest {
 
