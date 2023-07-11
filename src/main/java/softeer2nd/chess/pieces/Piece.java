@@ -33,118 +33,6 @@ public abstract class Piece implements Comparable<Piece> {
         return type;
     }
 
-    /**
-     * 해당하는 기물이 행마법과 일치하는지 여부 확인
-     * @param source 현재 기물의 위치
-     * @param destination 기물이 이동할 위치
-     * @return true if piece can move else false
-     */
-    public abstract boolean verifyMovePosition(Position source, Position destination);
-
-    /**
-     * 빈칸을 생성하는 팩토리 메서드
-     * @return 빈칸을 나타내는 기물
-     */
-    public static Piece createBlank() {
-        return new Blank();
-    }
-
-    /**
-     * 흰색 Pawn을 생성하는 팩토리 메서드
-     * @return 흰색 Pawn
-     */
-    public static Piece createWhitePawn() {
-        return new Pawn(WHITE);
-    }
-
-    /**
-     * 검은색 Pawn을 생성하는 팩토리 메서드
-     * @return 검은색 Pawn
-     */
-    public static Piece createBlackPawn() {
-        return new Pawn(BLACK);
-    }
-
-    /**
-     * 흰색 Knight을 생성하는 팩토리 메서드
-     * @return 흰색 Knight
-     */
-    public static Piece createWhiteKnight() {
-        return new Knight(WHITE);
-    }
-
-    /**
-     * 검은색 Knight을 생성하는 팩토리 메서드
-     * @return 검은색 Knight
-     */
-    public static Piece createBlackKnight() {
-        return new Knight(BLACK);
-    }
-
-    /**
-     * 흰색 Rook을 생성하는 팩토리 메서드
-     * @return 흰색 Rook
-     */
-    public static Piece createWhiteRook() {
-        return new Rook(WHITE);
-    }
-
-    /**
-     * 검은색 Rook을 생성하는 팩토리 메서드
-     * @return 검은색 Rook
-     */
-    public static Piece createBlackRook() {
-        return new Rook(BLACK);
-    }
-
-    /**
-     * 흰색 Bishop을 생성하는 팩토리 메서드
-     * @return 흰색 Bishop
-     */
-    public static Piece createWhiteBishop() {
-        return new Bishop(WHITE);
-    }
-
-    /**
-     * 검은색 Bishop을 생성하는 팩토리 메서드
-     * @return 검은색 Bishop
-     */
-    public static Piece createBlackBishop() {
-        return new Bishop(BLACK);
-    }
-
-    /**
-     * 흰색 Queen을 생성하는 팩토리 메서드
-     * @return 흰색 Queen
-     */
-    public static Piece createWhiteQueen() {
-        return new Queen(WHITE);
-    }
-
-    /**
-     * 검은색 Queen을 생성하는 팩토리 메서드
-     * @return 검은색 Queen
-     */
-    public static Piece createBlackQueen() {
-        return new Queen(BLACK);
-    }
-
-    /**
-     * 흰색 King을 생성하는 팩토리 메서드
-     * @return 흰색 King
-     */
-    public static Piece createWhiteKing() {
-        return new King(WHITE);
-    }
-
-    /**
-     * 검은색 King을 생성하는 팩토리 메서드
-     * @return 검은색 King
-     */
-    public static Piece createBlackKing() {
-        return new King(BLACK);
-    }
-
     public boolean isBlack() {
         return color.equals(BLACK);
     }
@@ -156,6 +44,33 @@ public abstract class Piece implements Comparable<Piece> {
     public boolean isBlank() {
         return type.equals(NO_PIECE);
     }
+
+    public boolean isType(Type type) {
+        return this.type.equals(type);
+    }
+
+    public boolean isColor(Color color) {
+        return this.color.equals(color);
+    }
+
+    public boolean hasSameType(Piece target) {
+        return this.type.equals(target.type);
+    }
+
+    public boolean hasSameColor(Piece target) {
+        return this.color.equals(target.color);
+    }
+
+    public boolean hasDifferentColor(Piece target) {
+        return !hasSameColor(target);
+    }
+
+    /**
+     * 해당하는 기물의 행마법 유효성 검사
+     * @param source 현재 기물의 위치
+     * @param destination 기물이 이동할 위치
+     */
+    public abstract void verifyMovePosition(Position source, Position destination);
 
     @Override
     public boolean equals(Object o) {
@@ -188,6 +103,10 @@ public abstract class Piece implements Comparable<Piece> {
 
     public enum Color {
         WHITE, BLACK, NO_COLOR;
+
+        public boolean isWhite() {
+            return this.equals(WHITE);
+        }
     }
 
     public enum Type {

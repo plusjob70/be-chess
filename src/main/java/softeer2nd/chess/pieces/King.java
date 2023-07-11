@@ -1,7 +1,10 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Position;
+import softeer2nd.chess.exceptions.IllegalMoveException;
 
+import static softeer2nd.chess.pieces.PieceDirection.hasDirection;
+import static softeer2nd.chess.pieces.PieceDirection.isKingDirection;
 import static softeer2nd.chess.pieces.Piece.Type.KING;
 
 public class King extends Piece {
@@ -16,11 +19,9 @@ public class King extends Piece {
      * @return true if king can move else false
      */
     @Override
-    public boolean verifyMovePosition(Position source, Position destination) {
-        int deltaX = Math.abs(destination.getX() - source.getX());
-        int deltaY = Math.abs(destination.getY() - source.getY());
-        return (deltaX == 1 && deltaY == 0) ||
-                (deltaX == 0 && deltaY == 1) ||
-                (deltaX == 1 && deltaY == 1);
+    public void verifyMovePosition(Position source, Position destination) {
+        if (!hasDirection(source, destination) || !isKingDirection(source, destination)) {
+            throw new IllegalMoveException();
+        }
     }
 }

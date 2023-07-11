@@ -3,28 +3,31 @@ package softeer2nd.chess;
 import softeer2nd.chess.exceptions.IllegalMoveException;
 import softeer2nd.chess.exceptions.IllegalTurnException;
 import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.pieces.Piece.Type;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import static softeer2nd.chess.pieces.PieceDirection.*;
 import static softeer2nd.chess.pieces.Piece.Color;
-import static softeer2nd.chess.pieces.Piece.Color.BLACK;
-import static softeer2nd.chess.pieces.Piece.Color.WHITE;
-import static softeer2nd.chess.pieces.Piece.Type.KING;
-import static softeer2nd.chess.pieces.Piece.Type.PAWN;
+import static softeer2nd.chess.pieces.Piece.Color.*;
+import static softeer2nd.chess.pieces.Piece.Type.*;
 
 /**
  * 체스 게임의 규칙과 관련된 로직을 담당
  */
 public class ChessGame {
+    /**
+     * 8 * 8 체스 보드
+     */
     private final Board board;
 
     /**
-     * 기물을 움직일 차례의 색상
+     * 공격할 기물의 색상
      */
-    private Color turn;
+    private Color attackTurnColor;
 
     public ChessGame(Board board) {
         this.board = board;
@@ -40,7 +43,7 @@ public class ChessGame {
         board.initializePawnRank(7);
         board.initializePawnRank(2);
         board.initializeRank1();
-        this.turn = WHITE;
+        this.attackTurnColor = WHITE;
     }
 
     /**
@@ -50,21 +53,44 @@ public class ChessGame {
      */
     public void move(Position source, Position destination) {
         Piece piece = board.findPiece(source);
-        if (piece.isBlank()) {
-            throw new IllegalMoveException("빈칸은 옮길 수 없습니다.");
-        }
-        if (!isTurn(piece)) {
-            throw new IllegalTurnException(piece.getColor() + "의 차례가 아닙니다.");
-        }
-        if (piece.verifyMovePosition(source, destination)) {
-            board.putPiece(destination, piece);
-            board.putPiece(source, Piece.createBlank());
-            flipTurn();
-            return;
-        }
-        throw new IllegalMoveException("해당 기물을 옮길 수 없습니다.");
+
+        // 해당 기물이 이동할 수 있는 경로인지 검증한다.
+        piece.verifyMovePosition(source, destination);
+
+        // 이동경로 상에 기물이 있는지 검증한다.
+        verifyMovePath(piece, source, destination);
+
+        // 이동하고자 하는 기물의 차례가 아니면 이동시킬 수 없다.
+        verifyTurn(piece);
+
+        // source 기물과 destination 기물의 색상은 달라야한다.
+        verifyColor(source, destination);
+
+        // 기물을 이동시키고 차례를 넘긴다.
+        board.putPiece(destination, piece);
+        board.putBlank(source);
+        flipAttackTurn();
     }
 
+    private void verifyMovePath(Piece targetPiece, Position source, Position destination) {
+        Type type = targetPiece.getType();
+        switch (targetPiece.getType()) {
+            case QUEEN:
+            case KING:
+                verifyLinearPath(source, destination);
+                verifyDiagonalPath(source, destination);
+                break;
+            case ROOK:
+                verifyLinearPath(source, destination);
+                break;
+            case BISHOP:
+                verifyDiagonalPath(source, destination);
+                break;
+            case PAWN:
+                verifyPawnPath(targetPiece, source, destination);
+                break;
+        }
+    }
 
     /**
      * 특정 색상의 기물의 점수를 계산한다.
@@ -81,13 +107,13 @@ public class ChessGame {
             for (int x = 0; x < Board.SIZE; x++) {
                 piece = board.findPiece(x, y);
 
-                if (piece.getType().equals(PAWN) && piece.getColor().equals(color)) {
+                if (piece.isType(PAWN) && piece.isColor(color)) {
                     pawnCount++;
-                } else if (piece.getColor().equals(color)) {
+                } else if (piece.isColor(color)) {
                     scores += piece.getType().getPoint();
                 }
 
-                if (piece.getType().equals(KING) && piece.getColor().equals(color)) {
+                if (piece.isType(KING) && piece.isColor(color)) {
                     existKing = true;
                 }
             }
@@ -117,7 +143,7 @@ public class ChessGame {
         for (int x = 0; x < Board.SIZE; x++) {
             for (int y = 0; y < Board.SIZE; y++) {
                 Piece piece = board.findPiece(x, y);
-                if (!piece.isBlank() && piece.getColor().equals(color)) {
+                if (!piece.isBlank() && piece.isColor(color)) {
                     heap.add(piece);
                 }
             }
@@ -126,10 +152,10 @@ public class ChessGame {
     }
 
     /**
-     * 턴이 종료되면 차례가 바뀐다.
+     * 공격 차례를 바뀐다.
      */
-    private void flipTurn() {
-        this.turn = this.turn.equals(WHITE) ? BLACK : WHITE;
+    private void flipAttackTurn() {
+        this.attackTurnColor = this.attackTurnColor.isWhite() ? BLACK : WHITE;
     }
 
     /**
@@ -138,6 +164,79 @@ public class ChessGame {
      * @return true if 해당 색깔의 차례 else false
      */
     private boolean isTurn(Piece piece) {
-        return piece.getColor().equals(this.turn);
+        return piece.isColor(this.attackTurnColor);
+    }
+
+    private void verifyDiagonalPath(Position source, Position destination) {
+        if (!isDiagonalDirection(source, destination)) {
+            return;
+        }
+        int srcX = source.getX();
+        int srcY = source.getY();
+        int destX = destination.getX();
+        int destY = destination.getY();
+
+        int directionX = (destX > srcX) ? 1 : -1;
+        int directionY = (destY > srcY) ? 1 : -1;
+        int currentX = srcX + directionX;
+        int currentY = srcY + directionY;
+
+        while (currentX != destX && currentY != destY) {
+            if (!board.findPiece(currentX, currentY).isBlank()) {
+                throw new IllegalMoveException();
+            }
+            currentX += directionX;
+            currentY += directionY;
+        }
+    }
+
+    private void verifyLinearPath(Position source, Position destination) {
+        if (!isLinearDirection(source, destination)) {
+            return;
+        }
+        int srcX = source.getX();
+        int srcY = source.getY();
+        int destX = destination.getX();
+        int destY = destination.getY();
+
+        if (srcX == destX) {
+            int minY = Math.min(srcY, destY);
+            int maxY = Math.max(srcY, destY);
+            for (int y = minY + 1; y < maxY; y++) {
+                if (!board.findPiece(srcX, y).isBlank()) {
+                    throw new IllegalMoveException();
+                }
+            }
+        } else if (srcY == destY) {
+            int minX = Math.min(srcX, destX);
+            int maxX = Math.max(srcX, destX);
+            for (int x = minX + 1; x < maxX; x++) {
+                if (!board.findPiece(x, srcY).isBlank()) {
+                    throw new IllegalMoveException();
+                }
+            }
+        }
+    }
+
+    private void verifyPawnPath(Piece pawn, Position source, Position destination) {
+        if (pawn.isWhite()) {
+
+        } else if (pawn.isBlack()) {
+
+        }
+    }
+
+    private void verifyTurn(Piece piece) {
+        if (!isTurn(piece)) {
+            throw new IllegalTurnException(piece.getColor() + "의 차례가 아닙니다.");
+        }
+    }
+
+    private void verifyColor(Position source, Position destination) {
+        Piece srcPiece = board.findPiece(source);
+        Piece destPiece = board.findPiece(destination);
+        if (srcPiece.hasSameColor(destPiece)) {
+            throw new IllegalMoveException();
+        }
     }
 }

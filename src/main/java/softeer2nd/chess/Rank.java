@@ -7,6 +7,8 @@ import softeer2nd.chess.pieces.Piece.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static softeer2nd.chess.pieces.PieceFactory.createBlank;
+
 /**
  * 체스판의 가로줄에 해당
  */
@@ -27,7 +29,7 @@ public class Rank {
     public Rank() {
         this.pieces = new ArrayList<>();
         for (int i = 0; i < SIZE_PIECES; i++) {
-            this.pieces.add(Piece.createBlank());
+            this.pieces.add(createBlank());
         }
     }
 

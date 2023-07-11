@@ -1,8 +1,9 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Position;
+import softeer2nd.chess.exceptions.IllegalMoveException;
 
-import static softeer2nd.chess.pieces.Piece.Color.*;
+import static softeer2nd.chess.pieces.Piece.Color.NO_COLOR;
 import static softeer2nd.chess.pieces.Piece.Type.NO_PIECE;
 
 public class Blank extends Piece {
@@ -17,7 +18,7 @@ public class Blank extends Piece {
      * @return false
      */
     @Override
-    public boolean verifyMovePosition(Position source, Position destination) {
-        return false;
+    public void verifyMovePosition(Position source, Position destination) {
+        throw new IllegalMoveException("빈칸은 이동할 수 없습니다.");
     }
 }

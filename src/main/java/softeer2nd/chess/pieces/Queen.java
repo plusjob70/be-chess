@@ -1,7 +1,9 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Position;
+import softeer2nd.chess.exceptions.IllegalMoveException;
 
+import static softeer2nd.chess.pieces.PieceDirection.*;
 import static softeer2nd.chess.pieces.Piece.Type.QUEEN;
 
 public class Queen extends Piece {
@@ -16,14 +18,12 @@ public class Queen extends Piece {
      * @return true if queen can move else false
      */
     @Override
-    public boolean verifyMovePosition(Position source, Position destination) {
-        if (source.equals(destination)) {
-            return false;
+    public void verifyMovePosition(Position source, Position destination) {
+        if (!hasDirection(source, destination)) {
+            throw new IllegalMoveException();
         }
-        int deltaX = Math.abs(destination.getX() - source.getX());
-        int deltaY = Math.abs(destination.getY() - source.getY());
-        return (source.getX() == destination.getX()) ||
-                (source.getY() == destination.getY()) ||
-                (deltaX == deltaY);
+        if (!(isDiagonalDirection(source, destination) || isLinearDirection(source, destination))) {
+            throw new IllegalMoveException();
+        }
     }
 }

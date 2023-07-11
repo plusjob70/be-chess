@@ -5,7 +5,9 @@ import softeer2nd.chess.pieces.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
-import static softeer2nd.chess.pieces.Piece.*;
+import static softeer2nd.chess.pieces.Piece.Color;
+import static softeer2nd.chess.pieces.Piece.Type;
+import static softeer2nd.chess.pieces.PieceFactory.*;
 
 /**
  * 체스 보드
@@ -35,7 +37,7 @@ public class Board {
      */
     public void initializeEmpty() {
         ranks.clear();
-        for (int rankNumber = Board.SIZE; rankNumber > 0; rankNumber--) {
+        for (int i = 0; i < Board.SIZE; i++) {
             ranks.add(new Rank());
         }
     }
@@ -131,6 +133,14 @@ public class Board {
      */
     public void putPiece(Position position, Piece piece) {
         ranks.get(position.getX()).setPiece(position.getY(), piece);
+    }
+
+    /**
+     * 특정 위치에 빈칸을 둔다.
+     * @param position 보드의 위치좌표
+     */
+    public void putBlank(Position position) {
+        ranks.get(position.getX()).setPiece(position.getY(), createBlank());
     }
 
     /**
