@@ -8,7 +8,7 @@ import softeer2nd.chess.pieces.Piece;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static softeer2nd.chess.pieces.Piece.Color.BLACK;
 import static softeer2nd.chess.pieces.Piece.Color.WHITE;
 import static softeer2nd.chess.pieces.PieceFactory.*;
@@ -137,6 +137,54 @@ class ChessGameTest {
         chessGame.move(source, destination);
 
         assertEquals(board.findPiece(source), createBlank());
+    }
+
+    @Test
+    @DisplayName("흰색 킹이 죽으면 게임이 종료된다.")
+    void whiteKingDie() {
+        // given
+        chessGame.initialize();
+        Position e1 = Position.create("e1");
+        Position e2 = Position.create("e2");
+        Position e4 = Position.create("e4");
+        chessGame.move(e2, e4);              // 흰색 턴 소비
+
+        board.putPiece(e2, createBlackRook());
+
+        // when
+        chessGame.move(e2, e1);
+
+        // then
+        assertTrue(chessGame.isOver());
+    }
+
+    @Test
+    @DisplayName("검은색 킹이 죽으면 게임이 종료된다.")
+    void blackKingDie() {
+        // given
+        chessGame.initialize();
+        Position e7 = Position.create("e7");
+        Position e8 = Position.create("e8");
+
+        board.putPiece(e7, createWhiteRook());
+
+        // when
+        chessGame.move(e7, e8);
+
+        // then
+        assertTrue(chessGame.isOver());
+    }
+
+    @Test
+    @DisplayName("양쪽 킹이 죽지 않으면 게임이 종료되지 않는다.")
+    void anyKingDoesNotDie() {
+        chessGame.initialize();
+        Position g2 = Position.create("g2");
+        Position g3 = Position.create("g3");
+
+        chessGame.move(g2, g3);
+
+        assertFalse(chessGame.isOver());
     }
 
     private void addPiece(String expression, Piece piece) {

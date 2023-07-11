@@ -45,6 +45,17 @@ public class ChessView {
     }
 
     /**
+     * 게임의 결과를 출력하기 위한 문자열을 반환
+     * @param gameStatus 게임 상태 객체
+     * @return 게임의 결과
+     */
+    public String showResults(GameStatus gameStatus) {
+        String winnerResult = "승자 : " + gameStatus.getWinner();
+        String roundResult = "라운드 수 : " + gameStatus.getRound() + " 라운드";
+        return appendNewLine(winnerResult) + roundResult;
+    }
+
+    /**
      * 사용자로부터 입력을 받아 파싱 후 Command 객체 리턴
      * @return Command 객체
      */

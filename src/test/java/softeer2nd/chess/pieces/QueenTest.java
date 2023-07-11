@@ -60,6 +60,7 @@ class QueenTest {
     void eat() {
         chessGame.initialize();
         board.initializeEmpty();
+
         Position d5 = Position.create("d5");
         Position g2 = Position.create("g2");
         board.putPiece(d5, createWhiteQueen());

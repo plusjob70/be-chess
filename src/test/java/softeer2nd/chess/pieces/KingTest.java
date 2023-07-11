@@ -56,6 +56,7 @@ class KingTest {
     void doNotEatSameColor() {
         chessGame.initialize();
         board.initializeEmpty();
+
         Position b2 = Position.create("b2");
         Position b3 = Position.create("b3");
 

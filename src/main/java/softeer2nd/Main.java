@@ -1,9 +1,6 @@
 package softeer2nd;
 
-import softeer2nd.chess.Board;
-import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.ChessView;
-import softeer2nd.chess.Command;
+import softeer2nd.chess.*;
 
 public class Main {
 
@@ -13,7 +10,7 @@ public class Main {
         ChessGame chessGame = new ChessGame(board);
         ChessView chessView = new ChessView(board);
 
-        while (true) {
+        while (!chessGame.isOver()) {
             try {
                 command = chessView.input();
                 if (command.isStart()) {
@@ -28,5 +25,7 @@ public class Main {
             }
             System.out.println(chessView.showBoard());
         }
+        System.out.println(chessView.showResults(chessGame.getStatus()));
+        chessView.close();
     }
 }

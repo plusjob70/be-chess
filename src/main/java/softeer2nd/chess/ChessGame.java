@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import static softeer2nd.chess.pieces.Piece.Color;
-import static softeer2nd.chess.pieces.Piece.Color.BLACK;
-import static softeer2nd.chess.pieces.Piece.Color.WHITE;
 import static softeer2nd.chess.pieces.Piece.Type.KING;
 import static softeer2nd.chess.pieces.Piece.Type.PAWN;
 import static softeer2nd.chess.pieces.PieceDirection.*;
@@ -26,12 +24,17 @@ public class ChessGame {
     private final Board board;
 
     /**
-     * 공격할 기물의 색상
+     * 게임의 진행 상태를 기록
      */
-    private Color attackTurnColor;
+    private GameStatus gameStatus;
 
     public ChessGame(Board board) {
         this.board = board;
+        this.gameStatus = new GameStatus();
+    }
+
+    public GameStatus getStatus() {
+        return gameStatus;
     }
 
     /**
@@ -44,7 +47,7 @@ public class ChessGame {
         board.initializePawnRank(7);
         board.initializePawnRank(2);
         board.initializeRank1();
-        this.attackTurnColor = WHITE;
+        this.gameStatus = new GameStatus();
     }
 
     /**
@@ -53,10 +56,11 @@ public class ChessGame {
      * @param destination 기물이 이동할 목적 위치
      */
     public void move(Position source, Position destination) {
-        Piece piece = board.findPiece(source);
+        Piece srcPiece = board.findPiece(source);
+        Piece destPiece = board.findPiece(destination);
 
         // 해당 기물이 이동할 수 있는 경로인지 검증한다.
-        piece.verifyMovePosition(source, destination);
+        srcPiece.verifyMovePosition(source, destination);
 
         // 기물이 같은 위치로 이동하는지 검증한다.
         verifyMoveSamePosition(source, destination);
@@ -64,18 +68,29 @@ public class ChessGame {
         // 이동경로 상에 기물이 있는지 검증한다.
         verifyAnyPieceOnLinearPath(source, destination);
         verifyAnyPieceOnDiagonalPath(source, destination);
-        verifyPawnPath(piece, source, destination);
+        verifyPawnPath(srcPiece, source, destination);
 
         // 이동하고자 하는 기물의 차례가 아니면 이동시킬 수 없다.
-        verifyTurn(piece);
+        verifyTurn(srcPiece);
 
         // source 기물과 destination 기물의 색상은 달라야한다.
         verifyColor(source, destination);
 
+        // 왕을 공격하는지 검사
+        verifyAttackKing(destPiece);
+
         // 기물을 이동시키고 공격권을 넘긴다.
-        board.putPiece(destination, piece);
+        board.putPiece(destination, srcPiece);
         board.putBlank(source);
-        flipAttackTurn();
+        gameStatus.turnOver();
+    }
+
+    /**
+     * 게임이 종료되었는지 검사한다.
+     * @return true if 게임 종료 else false
+     */
+    public boolean isOver() {
+        return !gameStatus.isWhiteKingAlive() || !gameStatus.isBlackKingAlive();
     }
 
     /**
@@ -135,22 +150,6 @@ public class ChessGame {
             }
         }
         return new ArrayList<>(heap);
-    }
-
-    /**
-     * 공격 차례를 바뀐다.
-     */
-    private void flipAttackTurn() {
-        this.attackTurnColor = this.attackTurnColor.equals(WHITE) ? BLACK : WHITE;
-    }
-
-    /**
-     * 해당 기물이 현재 움직일 수 있는 차례인지 확인
-     * @param piece 움직일 기물
-     * @return true if 해당 색깔의 차례 else false
-     */
-    private boolean isTurn(Piece piece) {
-        return piece.isColorOf(this.attackTurnColor);
     }
 
     /**
@@ -254,8 +253,8 @@ public class ChessGame {
      * @param piece 기물
      */
     private void verifyTurn(Piece piece) {
-        if (!isTurn(piece)) {
-            throw new IllegalTurnException(piece.getColor() + "의 차례가 아닙니다.");
+        if (!gameStatus.isTurnOf(piece.getColor())) {
+            throw new IllegalTurnException(piece.getColor() + " 색상의 차례가 아닙니다.");
         }
     }
 
@@ -269,6 +268,20 @@ public class ChessGame {
         Piece destPiece = board.findPiece(destination);
         if (srcPiece.isColorOf(destPiece)) {
             throw new IllegalMoveException("같은 팀을 공격할 수 없습니다.");
+        }
+    }
+
+    /**
+     * 공격을 당하는 기물이 킹이면 승자가 결정된다.
+     * @param destPiece 공격을 당하는 기물
+     */
+    private void verifyAttackKing(Piece destPiece) {
+        if (destPiece.isTypeOf(KING)) {
+            if (destPiece.isWhite()) {
+                gameStatus.killWhiteKing();
+            } else if (destPiece.isBlack()) {
+                gameStatus.killBlackKing();
+            }
         }
     }
 }
