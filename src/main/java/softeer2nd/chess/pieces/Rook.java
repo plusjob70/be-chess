@@ -19,8 +19,8 @@ public class Rook extends Piece {
      */
     @Override
     public void verifyMovePosition(Position source, Position destination) {
-        if (!hasDirection(source, destination) || !isLinearDirection(source, destination)) {
-            throw new IllegalMoveException();
+        if (!isLinearDirection(source, destination)) {
+            throw new IllegalMoveException("룩을 해당 위치로 이동할 수 없습니다.");
         }
     }
 }

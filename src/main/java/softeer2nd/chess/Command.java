@@ -21,14 +21,28 @@ public class Command {
         return destination;
     }
 
+    /**
+     * 게임 시작 명령을 만든다.
+     * @return 게임 시작 Command
+     */
     public static Command createStartCommand() {
         return new Command(START, null, null);
     }
 
+    /**
+     * 기물 이동 명령을 만든다.
+     * @param source 출발 위치
+     * @param destination 도착 위치
+     * @return 기물 이동 Command
+     */
     public static Command createMoveCommand(Position source, Position destination) {
         return new Command(MOVE, source, destination);
     }
 
+    /**
+     * 게임 종료 명령을 만든다.
+     * @return 게임 종료 Command
+     */
     public static Command createEndCommand() {
         return new Command(END, null, null);
     }

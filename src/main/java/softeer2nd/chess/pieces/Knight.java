@@ -19,8 +19,8 @@ public class Knight extends Piece {
      */
     @Override
     public void verifyMovePosition(Position source, Position destination) {
-        if (!hasDirection(source, destination) || !isKnightDirection(source, destination)) {
-            throw new IllegalMoveException();
+        if (!isKnightDirection(source, destination)) {
+            throw new IllegalMoveException("나이트를 해당 위치로 이동할 수 없습니다.");
         }
     }
 }

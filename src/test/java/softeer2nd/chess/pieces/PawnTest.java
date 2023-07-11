@@ -191,4 +191,45 @@ class PawnTest {
         assertThatThrownBy(() -> blackPawn.verifyMovePosition(b7, b8))
                 .isInstanceOf(IllegalMoveException.class);
     }
+
+    @Test
+    @DisplayName("검은색 pawn은 처음 움직임에서 다른 기물을 뛰어넘을 수 없다.")
+    void blackPawnCannotJump() {
+        chessGame.initialize();
+
+        Position d2 = Position.create("d2");
+        Position d3 = Position.create("d3");
+        board.putPiece(d3, createBlackPawn());
+
+        assertThatThrownBy(() -> chessGame.move(d2, d3))
+                .isInstanceOf(IllegalMoveException.class);
+    }
+
+    @Test
+    @DisplayName("검은색 pawn은 앞에 기물이 있으면 그쪽으로 갈 수 없다.")
+    void blackPawnCannotMove1() {
+        chessGame.initialize();
+
+        Position d2 = Position.create("d2");
+        Position d3 = Position.create("d3");
+        board.putPiece(d3, createBlackPawn());
+
+        assertThatThrownBy(() -> chessGame.move(d2, d3))
+                .isInstanceOf(IllegalMoveException.class);
+    }
+
+    @Test
+    @DisplayName("검은색 pawn은 대각선에 기물이 없으면 그쪽으로 이동할 수 없다.")
+    void blackPawnCannotMove2() {
+        chessGame.initialize();
+        board.initializeEmpty();
+
+        Position d2 = Position.create("d2");
+        Position e3 = Position.create("e3");
+
+        board.putPiece(d2, blackPawn);
+
+        assertThatThrownBy(() -> chessGame.move(d2, e3))
+                .isInstanceOf(IllegalMoveException.class);
+    }
 }

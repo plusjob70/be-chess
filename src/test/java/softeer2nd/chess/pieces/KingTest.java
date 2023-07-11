@@ -43,8 +43,11 @@ class KingTest {
     @Test
     @DisplayName("제자리로 움직일 수 없다.")
     void doNotMove() {
+        chessGame.initialize();
         Position d5 = Position.create("d5");
-        assertThatThrownBy(() -> king.verifyMovePosition(d5, d5))
+        board.putPiece(d5, king);
+
+        assertThatThrownBy(() -> chessGame.move(d5, d5))
                 .isInstanceOf(IllegalMoveException.class);
     }
 

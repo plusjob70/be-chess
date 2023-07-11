@@ -132,7 +132,7 @@ class ChessGameTest {
     void addedNoPiece() {
         chessGame.initialize();
         Position source = Position.create("a2");
-        Position destination = Position.create("b3");
+        Position destination = Position.create("a3");
 
         chessGame.move(source, destination);
 

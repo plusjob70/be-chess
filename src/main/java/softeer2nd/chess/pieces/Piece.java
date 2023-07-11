@@ -45,24 +45,19 @@ public abstract class Piece implements Comparable<Piece> {
         return type.equals(NO_PIECE);
     }
 
-    public boolean isType(Type type) {
+    public boolean isTypeOf(Type type) {
         return this.type.equals(type);
     }
-
-    public boolean isColor(Color color) {
-        return this.color.equals(color);
-    }
-
-    public boolean hasSameType(Piece target) {
+    public boolean isTypeOf(Piece target) {
         return this.type.equals(target.type);
     }
 
-    public boolean hasSameColor(Piece target) {
-        return this.color.equals(target.color);
+    public boolean isColorOf(Color color) {
+        return this.color.equals(color);
     }
 
-    public boolean hasDifferentColor(Piece target) {
-        return !hasSameColor(target);
+    public boolean isColorOf(Piece target) {
+        return this.color.equals(target.color);
     }
 
     /**

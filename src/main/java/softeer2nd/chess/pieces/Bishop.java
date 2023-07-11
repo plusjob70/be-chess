@@ -3,9 +3,8 @@ package softeer2nd.chess.pieces;
 import softeer2nd.chess.Position;
 import softeer2nd.chess.exceptions.IllegalMoveException;
 
-import static softeer2nd.chess.pieces.PieceDirection.hasDirection;
-import static softeer2nd.chess.pieces.PieceDirection.isDiagonalDirection;
 import static softeer2nd.chess.pieces.Piece.Type.BISHOP;
+import static softeer2nd.chess.pieces.PieceDirection.isDiagonalDirection;
 
 public class Bishop extends Piece {
     public Bishop(Color color) {
@@ -20,8 +19,8 @@ public class Bishop extends Piece {
      */
     @Override
     public void verifyMovePosition(Position source, Position destination) {
-        if (!hasDirection(source, destination) || !isDiagonalDirection(source, destination)) {
-            throw new IllegalMoveException("이동할 수 없습니다.");
+        if (!isDiagonalDirection(source, destination)) {
+            throw new IllegalMoveException("비숍을 해당 위치로 이동할 수 없습니다.");
         }
     }
 }

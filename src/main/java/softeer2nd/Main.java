@@ -4,7 +4,6 @@ import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.ChessView;
 import softeer2nd.chess.Command;
-import softeer2nd.chess.exceptions.*;
 
 public class Main {
 

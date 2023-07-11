@@ -3,9 +3,8 @@ package softeer2nd.chess.pieces;
 import softeer2nd.chess.Position;
 import softeer2nd.chess.exceptions.IllegalMoveException;
 
-import static softeer2nd.chess.pieces.PieceDirection.hasDirection;
-import static softeer2nd.chess.pieces.PieceDirection.isKingDirection;
 import static softeer2nd.chess.pieces.Piece.Type.KING;
+import static softeer2nd.chess.pieces.PieceDirection.isKingDirection;
 
 public class King extends Piece {
     public King(Color color) {
@@ -20,8 +19,8 @@ public class King extends Piece {
      */
     @Override
     public void verifyMovePosition(Position source, Position destination) {
-        if (!hasDirection(source, destination) || !isKingDirection(source, destination)) {
-            throw new IllegalMoveException();
+        if (!isKingDirection(source, destination)) {
+            throw new IllegalMoveException("킹을 해당 위치로 이동할 수 없습니다.");
         }
     }
 }

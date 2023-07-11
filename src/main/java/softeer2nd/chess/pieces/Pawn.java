@@ -23,13 +23,10 @@ public class Pawn extends Piece {
      */
     @Override
     public void verifyMovePosition(Position source, Position destination) {
-        if (!hasDirection(source, destination)) {
-            throw new IllegalMoveException();
-        }
         if (this.isWhite() && !isWhitePawnDirection(source, destination)) {
-            throw new IllegalMoveException();
+            throw new IllegalMoveException("폰을 해당 위치로 이동할 수 없습니다.");
         } else if (this.isBlack() && !isBlackPawnDirection(source, destination)) {
-            throw new IllegalMoveException();
+            throw new IllegalMoveException("폰을 해당 위치로 이동할 수 없습니다.");
         }
     }
 }

@@ -27,7 +27,6 @@ public class ChessView {
 
     /**
      * 보드를 출력하기 위한 문자열을 반환
-     *
      * @return 보드를 출력하기 위한 문자열
      */
     public String showBoard() {
@@ -47,8 +46,7 @@ public class ChessView {
 
     /**
      * 사용자로부터 입력을 받아 파싱 후 Command 객체 리턴
-     *
-     * @return
+     * @return Command 객체
      */
     public Command input() {
         String string = scanner.nextLine();
@@ -65,6 +63,9 @@ public class ChessView {
         throw new IllegalInputException();
     }
 
+    /**
+     * 스캐너를 close 하고 프로그램을 종료한다.
+     */
     public void close() {
         scanner.close();
         System.exit(0);
@@ -72,7 +73,6 @@ public class ChessView {
 
     /**
      * 문자열이 게임 시작 명령어인지 확인한다.
-     *
      * @param string 문자열
      * @return true if 게임 시작 명령어 else false
      */
@@ -82,7 +82,6 @@ public class ChessView {
 
     /**
      * 문자열이 기물 이동 명령어인지 학인한다.
-     *
      * @param string 문자열
      * @return true if 기물 이동 명령어 else false
      */
@@ -92,7 +91,6 @@ public class ChessView {
 
     /**
      * 문자열이 게임 종료 명령어인지 확인한다.
-     *
      * @param string 문자열
      * @return true if 게임 종료 명령어 else false
      */
@@ -103,7 +101,6 @@ public class ChessView {
 
     /**
      * List<Character>의 각각의 요소를 공백 없는 하나의 문자열로 반환한다.
-     *
      * @param characters 변환할 Character List
      * @return 변환된 문자열
      */

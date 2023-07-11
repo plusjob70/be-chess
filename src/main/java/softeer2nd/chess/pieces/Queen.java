@@ -19,11 +19,8 @@ public class Queen extends Piece {
      */
     @Override
     public void verifyMovePosition(Position source, Position destination) {
-        if (!hasDirection(source, destination)) {
-            throw new IllegalMoveException();
-        }
         if (!(isDiagonalDirection(source, destination) || isLinearDirection(source, destination))) {
-            throw new IllegalMoveException();
+            throw new IllegalMoveException("퀸을 해당 위치로 이동할 수 없습니다.");
         }
     }
 }
