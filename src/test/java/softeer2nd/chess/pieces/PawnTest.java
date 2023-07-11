@@ -8,6 +8,7 @@ import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.Position;
 import softeer2nd.chess.exceptions.IllegalMoveException;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static softeer2nd.chess.pieces.PieceFactory.createBlackPawn;
 import static softeer2nd.chess.pieces.PieceFactory.createWhitePawn;
@@ -39,7 +40,7 @@ class PawnTest {
     void whitePawnNotFirstTwoStep() {
         Position b3 = Position.create("b3");
         Position b5 = Position.create("b5");
-        org.assertj.core.api.Assertions.assertThatThrownBy(() -> whitePawn.verifyMovePosition(b3, b5))
+        assertThatThrownBy(() -> whitePawn.verifyMovePosition(b3, b5))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -84,7 +85,48 @@ class PawnTest {
     void whitePawnCannotMoveBackward() {
         Position b2 = Position.create("b2");
         Position b1 = Position.create("b1");
-        org.assertj.core.api.Assertions.assertThatThrownBy(() -> whitePawn.verifyMovePosition(b2, b1))
+        assertThatThrownBy(() -> whitePawn.verifyMovePosition(b2, b1))
+                .isInstanceOf(IllegalMoveException.class);
+    }
+
+    @Test
+    @DisplayName("흰색 pawn은 처음 움직임에서 다른 기물을 뛰어넘을 수 없다.")
+    void whitePawnCannotJump() {
+        chessGame.initialize();
+
+        Position d2 = Position.create("d2");
+        Position d3 = Position.create("d3");
+        board.putPiece(d3, createBlackPawn());
+
+        assertThatThrownBy(() -> chessGame.move(d2, d3))
+                .isInstanceOf(IllegalMoveException.class);
+    }
+
+    @Test
+    @DisplayName("흰색 pawn은 앞에 기물이 있으면 그쪽으로 갈 수 없다.")
+    void whitePawnCannotMove1() {
+        chessGame.initialize();
+
+        Position d2 = Position.create("d2");
+        Position d3 = Position.create("d3");
+        board.putPiece(d3, createBlackPawn());
+
+        assertThatThrownBy(() -> chessGame.move(d2, d3))
+                .isInstanceOf(IllegalMoveException.class);
+    }
+
+    @Test
+    @DisplayName("흰색 pawn은 대각선에 기물이 없으면 그쪽으로 이동할 수 없다.")
+    void whitePawnCannotMove2() {
+        chessGame.initialize();
+        board.initializeEmpty();
+
+        Position d2 = Position.create("d2");
+        Position e3 = Position.create("e3");
+
+        board.putPiece(d2, whitePawn);
+
+        assertThatThrownBy(() -> chessGame.move(d2, e3))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -101,7 +143,7 @@ class PawnTest {
     void blackPawnNotFirstTwoStep() {
         Position b6 = Position.create("b6");
         Position b4 = Position.create("b4");
-        org.assertj.core.api.Assertions.assertThatThrownBy(() -> blackPawn.verifyMovePosition(b6, b4))
+        assertThatThrownBy(() -> blackPawn.verifyMovePosition(b6, b4))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -146,7 +188,7 @@ class PawnTest {
     void blackPawnCannotMoveBackward() {
         Position b7 = Position.create("b7");
         Position b8 = Position.create("b8");
-        org.assertj.core.api.Assertions.assertThatThrownBy(() -> blackPawn.verifyMovePosition(b7, b8))
+        assertThatThrownBy(() -> blackPawn.verifyMovePosition(b7, b8))
                 .isInstanceOf(IllegalMoveException.class);
     }
 }

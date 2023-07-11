@@ -103,10 +103,6 @@ public abstract class Piece implements Comparable<Piece> {
 
     public enum Color {
         WHITE, BLACK, NO_COLOR;
-
-        public boolean isWhite() {
-            return this.equals(WHITE);
-        }
     }
 
     public enum Type {

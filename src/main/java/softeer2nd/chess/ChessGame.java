@@ -58,7 +58,9 @@ public class ChessGame {
         piece.verifyMovePosition(source, destination);
 
         // 이동경로 상에 기물이 있는지 검증한다.
-        verifyMovePath(piece, source, destination);
+        verifyAnyPieceOnLinearPath(source, destination);
+        verifyAnyPieceOnDiagonalPath(source, destination);
+        verifyPawnPath(piece, source, destination);
 
         // 이동하고자 하는 기물의 차례가 아니면 이동시킬 수 없다.
         verifyTurn(piece);
@@ -66,30 +68,10 @@ public class ChessGame {
         // source 기물과 destination 기물의 색상은 달라야한다.
         verifyColor(source, destination);
 
-        // 기물을 이동시키고 차례를 넘긴다.
+        // 기물을 이동시키고 공격권을 넘긴다.
         board.putPiece(destination, piece);
         board.putBlank(source);
         flipAttackTurn();
-    }
-
-    private void verifyMovePath(Piece targetPiece, Position source, Position destination) {
-        Type type = targetPiece.getType();
-        switch (targetPiece.getType()) {
-            case QUEEN:
-            case KING:
-                verifyLinearPath(source, destination);
-                verifyDiagonalPath(source, destination);
-                break;
-            case ROOK:
-                verifyLinearPath(source, destination);
-                break;
-            case BISHOP:
-                verifyDiagonalPath(source, destination);
-                break;
-            case PAWN:
-                verifyPawnPath(targetPiece, source, destination);
-                break;
-        }
     }
 
     /**
@@ -155,7 +137,7 @@ public class ChessGame {
      * 공격 차례를 바뀐다.
      */
     private void flipAttackTurn() {
-        this.attackTurnColor = this.attackTurnColor.isWhite() ? BLACK : WHITE;
+        this.attackTurnColor = this.attackTurnColor.equals(WHITE) ? BLACK : WHITE;
     }
 
     /**
@@ -167,7 +149,7 @@ public class ChessGame {
         return piece.isColor(this.attackTurnColor);
     }
 
-    private void verifyDiagonalPath(Position source, Position destination) {
+    private void verifyAnyPieceOnDiagonalPath(Position source, Position destination) {
         if (!isDiagonalDirection(source, destination)) {
             return;
         }
@@ -190,7 +172,7 @@ public class ChessGame {
         }
     }
 
-    private void verifyLinearPath(Position source, Position destination) {
+    private void verifyAnyPieceOnLinearPath(Position source, Position destination) {
         if (!isLinearDirection(source, destination)) {
             return;
         }
@@ -218,11 +200,21 @@ public class ChessGame {
         }
     }
 
-    private void verifyPawnPath(Piece pawn, Position source, Position destination) {
-        if (pawn.isWhite()) {
+    private void verifyPawnPath(Piece sourcePiece, Position source, Position destination) {
+        if (!sourcePiece.isType(PAWN)) {
+            return;
+        }
+        int deltaX = Math.abs(source.getX() - destination.getX());
+        int deltaY = Math.abs(source.getY() - destination.getY());
 
-        } else if (pawn.isBlack()) {
-
+        boolean straight = deltaX > 0 && deltaY == 0;
+        boolean diagonal = deltaX == 1 && deltaY == 1;
+        Piece destPiece = board.findPiece(destination);
+        if (diagonal && destPiece.isBlank()) {
+            throw new IllegalMoveException();
+        }
+        if (straight && !destPiece.isBlank()) {
+            throw new IllegalMoveException();
         }
     }
 
