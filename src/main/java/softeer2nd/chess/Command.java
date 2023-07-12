@@ -47,19 +47,31 @@ public class Command {
         return new Command(END, null, null);
     }
 
+    /**
+     * action이 게임 시작인지 검사한다.
+     * @return true if start action else false
+     */
     public boolean isStart() {
         return action.equals(START);
     }
 
+    /**
+     * action이 기물 이동인지 검사한다.
+     * @return true if move action else false
+     */
     public boolean isMove() {
         return action.equals(MOVE);
     }
 
+    /**
+     * action이 게임 종료인지 검사한다.
+     * @return ture if end action else false
+     */
     public boolean isEnd() {
         return action.equals(END);
     }
 
     public enum Action {
-        START, MOVE, END;
+        START, MOVE, END
     }
 }

@@ -25,16 +25,18 @@ class ChessViewTest {
 
         String blankRank = "........";
         assertEquals(
-                appendNewLine("RNBQKBNR  8") +
-                        appendNewLine("PPPPPPPP  7") +
-                        appendNewLine(blankRank + "  6") +
-                        appendNewLine(blankRank + "  5") +
-                        appendNewLine(blankRank + "  4") +
-                        appendNewLine(blankRank + "  3") +
-                        appendNewLine("pppppppp  2") +
-                        appendNewLine("rnbqkbnr  1") +
+                appendNewLine("   abcdefgh") +
                         appendNewLine("") +
-                        "abcdefgh",
+                        appendNewLine("8  RNBQKBNR  8") +
+                        appendNewLine("7  PPPPPPPP  7") +
+                        appendNewLine("6  " + blankRank + "  6") +
+                        appendNewLine("5  " + blankRank + "  5") +
+                        appendNewLine("4  " + blankRank + "  4") +
+                        appendNewLine("3  " + blankRank + "  3") +
+                        appendNewLine("2  pppppppp  2") +
+                        appendNewLine("1  rnbqkbnr  1") +
+                        appendNewLine("") +
+                        "   abcdefgh",
                 chessView.showBoard());
     }
 

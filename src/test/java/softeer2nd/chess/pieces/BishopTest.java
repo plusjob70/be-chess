@@ -22,7 +22,7 @@ class BishopTest {
 
     @BeforeEach
     void setUp() {
-        bishop = createBlackBishop();
+        bishop = createWhiteBishop();
         board = new Board();
         chessGame = new ChessGame(board);
     }

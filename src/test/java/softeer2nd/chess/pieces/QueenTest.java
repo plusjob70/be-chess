@@ -22,7 +22,7 @@ class QueenTest {
 
     @BeforeEach
     void setUp() {
-        queen = createBlackQueen();
+        queen = createWhiteQueen();
         board = new Board();
         chessGame = new ChessGame(board);
     }
@@ -51,6 +51,8 @@ class QueenTest {
         board.initializeEmpty();
 
         Position d5 = Position.create("d5");
+        board.putPiece(d5, queen);
+
         assertThatThrownBy(() -> chessGame.move(d5, d5))
                 .isInstanceOf(IllegalMoveException.class);
     }

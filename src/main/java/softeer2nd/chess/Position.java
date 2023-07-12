@@ -7,6 +7,9 @@ import softeer2nd.chess.exceptions.IllegalIndexExpressionException;
  * 체스 보드에 사용되는 위치 좌표
  */
 public class Position {
+    /**
+     * 체스보드 칸에 접근하는 표현식은 <알파벳 소문자 + 숫자>이다.
+     */
     public static final String EXPRESSION_POSITION = "[a-z]\\d+";
 
     /**
@@ -66,7 +69,7 @@ public class Position {
      * @param y y좌표
      * @return true if valid else false
      */
-    public static boolean isRange(int x, int y) {
+    public static boolean inRange(int x, int y) {
         return 0 <= x && x < Board.SIZE && 0 <= y && y < Board.SIZE;
     }
 
@@ -92,9 +95,10 @@ public class Position {
      * @throws BoardIndexOutOfRangeException 인덱스가 범위를 벗어날 때
      */
     private static void validateIndex(int x, int y) {
-        if (!isRange(x, y)) {
-            throw new BoardIndexOutOfRangeException(x, y);
+        if (inRange(x, y)) {
+            return;
         }
+        throw new BoardIndexOutOfRangeException(x, y);
     }
 
     @Override

@@ -15,10 +15,9 @@ public class Blank extends Piece {
      * 빈칸은 어디에도 움직일 수 없다.
      * @param source 현재 빈칸의 위치
      * @param destination 빈칸이 이동할 위치
-     * @return false
      */
     @Override
-    public void verifyMovePosition(Position source, Position destination) {
+    public void verifyPieceMovementRule(Position source, Position destination) {
         throw new IllegalMoveException("빈칸은 이동할 수 없습니다.");
     }
 }

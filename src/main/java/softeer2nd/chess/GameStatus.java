@@ -9,22 +9,22 @@ import static softeer2nd.chess.pieces.Piece.Color.WHITE;
  * 게임 진행 상태를 기록하는 클래스
  */
 public class GameStatus {
-    private boolean whiteKingAlive;
-    private boolean blackKingAlive;
+    private boolean whiteKingDead;
+    private boolean blackKingDead;
     private Color winner;
     private Color attackTurn;
     private int round;
 
     public GameStatus() {
-        this.whiteKingAlive = true;
-        this.blackKingAlive = true;
+        this.whiteKingDead = false;
+        this.blackKingDead = false;
         this.winner = NO_COLOR;
         this.attackTurn = WHITE;
         this.round = 1;
     }
 
-    public Color getWinner() {
-        return winner;
+    public String getWinner() {
+        return winner.getRepresentation();
     }
 
     public int getRound() {
@@ -32,19 +32,19 @@ public class GameStatus {
     }
 
     /**
-     * 흰색 킹이 살아있는지 검사한다.
-     * @return true if alive else false
+     * 흰색 킹이 죽었는지 검사한다.
+     * @return true if dead else false
      */
-    public boolean isWhiteKingAlive() {
-        return whiteKingAlive;
+    public boolean isWhiteKingDead() {
+        return whiteKingDead;
     }
 
     /**
-     * 검은색 킹이 살아있는지 검사한다.
-     * @return true if alive else false
+     * 검은색 킹이 죽었는지 검사한다.
+     * @return true if dead else false
      */
-    public boolean isBlackKingAlive() {
-        return blackKingAlive;
+    public boolean isBlackKingDead() {
+        return blackKingDead;
     }
 
     /**
@@ -52,7 +52,7 @@ public class GameStatus {
      * 승자가 검은색으로 결정된다.
      */
     public void killWhiteKing() {
-        whiteKingAlive = false;
+        whiteKingDead = true;
         winner = BLACK;
     }
 
@@ -61,7 +61,7 @@ public class GameStatus {
      * 승자가 흰색으로 결정된다.
      */
     public void killBlackKing() {
-        blackKingAlive = false;
+        blackKingDead = true;
         winner = WHITE;
     }
 

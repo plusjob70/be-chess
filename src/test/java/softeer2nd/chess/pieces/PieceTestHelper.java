@@ -22,14 +22,14 @@ public class PieceTestHelper {
     public static void allNotThrow(Board board, Piece piece, Position source, List<Position> destinations) {
         board.putPiece(source, piece);
         for (Position destination : destinations) {
-            assertDoesNotThrow(() -> piece.verifyMovePosition(source, destination));
+            assertDoesNotThrow(() -> piece.verifyPieceMovementRule(source, destination));
         }
     }
 
     public static void allThrow(Board board, Piece piece, Position source, List<Position> destinations) {
         board.putPiece(source, piece);
         for (Position destination : destinations) {
-            Assertions.assertThatThrownBy(() -> piece.verifyMovePosition(source, destination))
+            Assertions.assertThatThrownBy(() -> piece.verifyPieceMovementRule(source, destination))
                     .isInstanceOf(IllegalMoveException.class);
         }
     }

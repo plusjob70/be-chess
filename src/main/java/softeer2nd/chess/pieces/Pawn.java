@@ -19,14 +19,15 @@ public class Pawn extends Piece {
      * <li>전방 대각선에 기물이 있다면 대각선으로 한 칸 이동할 수 있다.</li>
      * @param source 현재 기물의 위치
      * @param destination 기물이 이동할 위치
-     * @return true if queen can move else false
      */
     @Override
-    public void verifyMovePosition(Position source, Position destination) {
-        if (this.isWhite() && !isWhitePawnDirection(source, destination)) {
-            throw new IllegalMoveException("폰을 해당 위치로 이동할 수 없습니다.");
-        } else if (this.isBlack() && !isBlackPawnDirection(source, destination)) {
-            throw new IllegalMoveException("폰을 해당 위치로 이동할 수 없습니다.");
+    public void verifyPieceMovementRule(Position source, Position destination) {
+        if (this.isWhite() && isWhitePawnDirection(source, destination)) {
+            return;
         }
+        if (this.isBlack() && isBlackPawnDirection(source, destination)) {
+            return;
+        }
+        throw new IllegalMoveException("폰을 해당 위치로 이동할 수 없습니다.");
     }
 }

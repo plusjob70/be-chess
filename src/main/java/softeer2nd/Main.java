@@ -15,9 +15,11 @@ public class Main {
                 command = chessView.input();
                 if (command.isStart()) {
                     chessGame.initialize();
-                } else if (command.isEnd()) {
+                }
+                if (command.isEnd()) {
                     chessView.close();
-                } else if (command.isMove()) {
+                }
+                if (command.isMove()) {
                     chessGame.move(command.getSource(), command.getDestination());
                 }
             } catch (RuntimeException e) {

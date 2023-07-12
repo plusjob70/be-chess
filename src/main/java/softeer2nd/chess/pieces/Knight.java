@@ -15,12 +15,12 @@ public class Knight extends Piece {
      * Knight는 L자 모양으로 움직일 수 있다.
      * @param source 현재 Knight의 위치
      * @param destination Knight가 이동할 위치
-     * @return true if knight can move else false
      */
     @Override
-    public void verifyMovePosition(Position source, Position destination) {
-        if (!isKnightDirection(source, destination)) {
-            throw new IllegalMoveException("나이트를 해당 위치로 이동할 수 없습니다.");
+    public void verifyPieceMovementRule(Position source, Position destination) {
+        if (isKnightDirection(source, destination)) {
+            return;
         }
+        throw new IllegalMoveException("나이트를 해당 위치로 이동할 수 없습니다.");
     }
 }

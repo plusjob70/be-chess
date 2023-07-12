@@ -68,7 +68,8 @@ public class Board {
             for (int y = 0; y < Board.SIZE; y++) {
                 pawnRank.setPiece(y, createBlackPawn());
             }
-        } else if (rankNumber == 2) {
+        }
+        if (rankNumber == 2) {
             for (int y = 0; y < Board.SIZE; y++) {
                 pawnRank.setPiece(y, createWhitePawn());
             }
@@ -156,7 +157,7 @@ public class Board {
     }
 
     /**
-     * Rank 번호로 Rank에 접근
+     * Rank 번호로 ranks에 접근
      * @param rankNumber Rank 번호
      * @return 해당 Rank 번호에 위치하는 Rank
      */

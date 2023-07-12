@@ -47,7 +47,7 @@ class RookTest {
     @DisplayName("제자리로 움직일 수 없다.")
     void doNotMove() {
         Position d5 = Position.create("d5");
-        assertThatThrownBy(() -> rook.verifyMovePosition(d5, d5))
+        assertThatThrownBy(() -> rook.verifyPieceMovementRule(d5, d5))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -61,7 +61,7 @@ class RookTest {
         board.putPiece(d5, createWhiteRook());
         board.putPiece(d2, createWhitePawn());
 
-        assertThatThrownBy(() -> rook.verifyMovePosition(d5, d5))
+        assertThatThrownBy(() -> rook.verifyPieceMovementRule(d5, d5))
                 .isInstanceOf(IllegalMoveException.class);
     }
 

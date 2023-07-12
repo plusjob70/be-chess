@@ -21,7 +21,7 @@ class KingTest {
 
     @BeforeEach
     void setUp() {
-        king = createBlackKing();
+        king = createWhiteKing();
         board = new Board();
         chessGame = new ChessGame(board);
     }

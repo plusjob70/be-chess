@@ -80,9 +80,11 @@ public class Rank {
         for (Piece piece : pieces) {
             if (piece.isWhite()) {
                 representations.add(piece.getType().getWhiteRepresentation());
-            } else if (piece.isBlack()) {
+            }
+            if (piece.isBlack()) {
                 representations.add(piece.getType().getBlackRepresentation());
-            } else {
+            }
+            if (piece.isBlank()) {
                 representations.add(piece.getType().getDefaultRepresentation());
             }
         }
@@ -94,8 +96,9 @@ public class Rank {
      * @param index pieces의 위치
      */
     private void validateOutOfIndex(int index) {
-        if (index < 0 || index >= SIZE_PIECES) {
-            throw new IndexOutOfBoundsException("인덱스 범위 초과");
+        if (0 <= index && index < SIZE_PIECES) {
+            return;
         }
+        throw new IndexOutOfBoundsException("인덱스 범위 초과");
     }
 }

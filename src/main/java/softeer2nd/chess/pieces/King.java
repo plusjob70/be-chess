@@ -15,12 +15,12 @@ public class King extends Piece {
      * King은 전방위로 한 칸만 움직일 수 있다.
      * @param source 현재 King의 위치
      * @param destination King이 이동할 위치
-     * @return true if king can move else false
      */
     @Override
-    public void verifyMovePosition(Position source, Position destination) {
-        if (!isKingDirection(source, destination)) {
-            throw new IllegalMoveException("킹을 해당 위치로 이동할 수 없습니다.");
+    public void verifyPieceMovementRule(Position source, Position destination) {
+        if (isKingDirection(source, destination)) {
+            return;
         }
+        throw new IllegalMoveException("킹을 해당 위치로 이동할 수 없습니다.");
     }
 }

@@ -32,7 +32,7 @@ class PawnTest {
     void whitePawnFirstTwoStep() {
         Position b2 = Position.create("b2");
         Position b4 = Position.create("b4");
-        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, b4));
+        assertDoesNotThrow(() -> whitePawn.verifyPieceMovementRule(b2, b4));
     }
 
     @Test
@@ -40,7 +40,7 @@ class PawnTest {
     void whitePawnNotFirstTwoStep() {
         Position b3 = Position.create("b3");
         Position b5 = Position.create("b5");
-        assertThatThrownBy(() -> whitePawn.verifyMovePosition(b3, b5))
+        assertThatThrownBy(() -> whitePawn.verifyPieceMovementRule(b3, b5))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -49,7 +49,7 @@ class PawnTest {
     void whitePawnFirstOneStep() {
         Position b2 = Position.create("b2");
         Position b4 = Position.create("b3");
-        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, b4));
+        assertDoesNotThrow(() -> whitePawn.verifyPieceMovementRule(b2, b4));
     }
 
     @Test
@@ -57,7 +57,7 @@ class PawnTest {
     void whitePawnNotFirstOneStep() {
         Position b3 = Position.create("b3");
         Position b4 = Position.create("b4");
-        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b3, b4));
+        assertDoesNotThrow(() -> whitePawn.verifyPieceMovementRule(b3, b4));
     }
 
     @Test
@@ -66,8 +66,8 @@ class PawnTest {
         Position b2 = Position.create("b2");
         Position a3 = Position.create("a3");
         Position c3 = Position.create("c3");
-        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, a3));
-        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b2, c3));
+        assertDoesNotThrow(() -> whitePawn.verifyPieceMovementRule(b2, a3));
+        assertDoesNotThrow(() -> whitePawn.verifyPieceMovementRule(b2, c3));
     }
 
     @Test
@@ -76,8 +76,8 @@ class PawnTest {
         Position b3 = Position.create("b3");
         Position a4 = Position.create("a4");
         Position c4 = Position.create("c4");
-        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b3, a4));
-        assertDoesNotThrow(() -> whitePawn.verifyMovePosition(b3, c4));
+        assertDoesNotThrow(() -> whitePawn.verifyPieceMovementRule(b3, a4));
+        assertDoesNotThrow(() -> whitePawn.verifyPieceMovementRule(b3, c4));
     }
 
     @Test
@@ -85,7 +85,7 @@ class PawnTest {
     void whitePawnCannotMoveBackward() {
         Position b2 = Position.create("b2");
         Position b1 = Position.create("b1");
-        assertThatThrownBy(() -> whitePawn.verifyMovePosition(b2, b1))
+        assertThatThrownBy(() -> whitePawn.verifyPieceMovementRule(b2, b1))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -135,7 +135,7 @@ class PawnTest {
     void blackPawnFirstTwoStep() {
         Position b7 = Position.create("b7");
         Position b5 = Position.create("b5");
-        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, b5));
+        assertDoesNotThrow(() -> blackPawn.verifyPieceMovementRule(b7, b5));
     }
 
     @Test
@@ -143,7 +143,7 @@ class PawnTest {
     void blackPawnNotFirstTwoStep() {
         Position b6 = Position.create("b6");
         Position b4 = Position.create("b4");
-        assertThatThrownBy(() -> blackPawn.verifyMovePosition(b6, b4))
+        assertThatThrownBy(() -> blackPawn.verifyPieceMovementRule(b6, b4))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -152,7 +152,7 @@ class PawnTest {
     void blackPawnFirstOneStep() {
         Position b7 = Position.create("b7");
         Position b6 = Position.create("b6");
-        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, b6));
+        assertDoesNotThrow(() -> blackPawn.verifyPieceMovementRule(b7, b6));
     }
 
     @Test
@@ -160,7 +160,7 @@ class PawnTest {
     void blackPawnNotFirstOneStep() {
         Position b6 = Position.create("b6");
         Position b5 = Position.create("b5");
-        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b6, b5));
+        assertDoesNotThrow(() -> blackPawn.verifyPieceMovementRule(b6, b5));
     }
 
     @Test
@@ -169,8 +169,8 @@ class PawnTest {
         Position b7 = Position.create("b7");
         Position a6 = Position.create("a6");
         Position c6 = Position.create("c6");
-        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, a6));
-        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b7, c6));
+        assertDoesNotThrow(() -> blackPawn.verifyPieceMovementRule(b7, a6));
+        assertDoesNotThrow(() -> blackPawn.verifyPieceMovementRule(b7, c6));
     }
 
     @Test
@@ -179,8 +179,8 @@ class PawnTest {
         Position b6 = Position.create("b6");
         Position a5 = Position.create("a5");
         Position c5 = Position.create("c5");
-        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b6, a5));
-        assertDoesNotThrow(() -> blackPawn.verifyMovePosition(b6, c5));
+        assertDoesNotThrow(() -> blackPawn.verifyPieceMovementRule(b6, a5));
+        assertDoesNotThrow(() -> blackPawn.verifyPieceMovementRule(b6, c5));
     }
 
     @Test
@@ -188,7 +188,7 @@ class PawnTest {
     void blackPawnCannotMoveBackward() {
         Position b7 = Position.create("b7");
         Position b8 = Position.create("b8");
-        assertThatThrownBy(() -> blackPawn.verifyMovePosition(b7, b8))
+        assertThatThrownBy(() -> blackPawn.verifyPieceMovementRule(b7, b8))
                 .isInstanceOf(IllegalMoveException.class);
     }
 
@@ -223,10 +223,14 @@ class PawnTest {
     void blackPawnCannotMove2() {
         chessGame.initialize();
         board.initializeEmpty();
+        // 턴 소비
+        Position g2 = Position.create("g2");
+        Position g3 = Position.create("g3");
+        board.putPiece(g2, whitePawn);
+        chessGame.move(g2, g3);
 
         Position d2 = Position.create("d2");
         Position e3 = Position.create("e3");
-
         board.putPiece(d2, blackPawn);
 
         assertThatThrownBy(() -> chessGame.move(d2, e3))
