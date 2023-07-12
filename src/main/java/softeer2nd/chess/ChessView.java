@@ -33,14 +33,17 @@ public class ChessView {
         StringBuilder sb = new StringBuilder();
         List<List<Character>> boardRepresentations = board.getRepresentations();
 
+        sb.append("   abcdefgh");
+        appendNewLine(sb); appendNewLine(sb);
         for (int i = 0; i < Board.SIZE; i++) {
             int rankNumber = Board.SIZE - i;
-            sb.append(characterListToString(boardRepresentations.get(i)))
+            sb.append(rankNumber).append("  ")
+                    .append(characterListToString(boardRepresentations.get(i)))
                     .append("  ").append(rankNumber);
             appendNewLine(sb);
         }
         appendNewLine(sb);
-        sb.append("abcdefgh");
+        sb.append("   abcdefgh");
         return sb.toString();
     }
 
@@ -51,7 +54,7 @@ public class ChessView {
      */
     public String showResults(GameStatus gameStatus) {
         String winnerResult = "승자 : " + gameStatus.getWinner();
-        String roundResult = "라운드 수 : " + gameStatus.getRound() + " 라운드";
+        String roundResult = "총 라운드 수 : " + gameStatus.getRound() + " 라운드";
         return appendNewLine(winnerResult) + roundResult;
     }
 
@@ -63,9 +66,11 @@ public class ChessView {
         String string = scanner.nextLine();
         if (isStartCommand(string)) {
             return createStartCommand();
-        } else if (isEndCommand(string)) {
+        }
+        if (isEndCommand(string)) {
             return createEndCommand();
-        } else if (isMoveCommand(string)) {
+        }
+        if (isMoveCommand(string)) {
             String[] stringParts = string.split(" ");
             Position source = Position.create(stringParts[1]);
             Position destination = Position.create(stringParts[2]);
@@ -75,7 +80,7 @@ public class ChessView {
     }
 
     /**
-     * 스캐너를 close 하고 프로그램을 종료한다.
+     * 스캐너를 닫고 프로그램을 종료한다.
      */
     public void close() {
         scanner.close();
@@ -106,8 +111,7 @@ public class ChessView {
      * @return true if 게임 종료 명령어 else false
      */
     private boolean isEndCommand(String string) {
-        String END_COMMAND_FORMAT = "end";
-        return string.matches(END_COMMAND_FORMAT);
+        return string.matches("end");
     }
 
     /**
