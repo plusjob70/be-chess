@@ -53,9 +53,10 @@ public class ChessView {
      * @return 게임의 결과
      */
     public String showResults(GameStatus gameStatus) {
-        String winnerResult = "승자 : " + gameStatus.getWinner();
-        String roundResult = "총 라운드 수 : " + gameStatus.getRound() + " 라운드";
-        return appendNewLine(winnerResult) + roundResult;
+        return appendNewLine("") +
+                appendNewLine("---< 게임 결과 >---") +
+                "승자 : " + appendNewLine(gameStatus.getWinner()) +
+                "총 라운드 수 : " + appendNewLine(gameStatus.getRound() + "라운드");
     }
 
     /**
@@ -64,6 +65,7 @@ public class ChessView {
      */
     public Command input() {
         String string = scanner.nextLine();
+        string = string.trim();
         if (isStartCommand(string)) {
             return createStartCommand();
         }
