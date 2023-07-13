@@ -1,6 +1,6 @@
-package softeer2nd.chess;
+package softeer2nd.chess.game;
 
-import static softeer2nd.chess.Command.Action.*;
+import static softeer2nd.chess.game.Command.Action.*;
 
 public class Command {
     private final Action action;

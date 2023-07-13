@@ -1,6 +1,9 @@
 package softeer2nd;
 
-import softeer2nd.chess.*;
+import softeer2nd.chess.game.Board;
+import softeer2nd.chess.game.ChessGame;
+import softeer2nd.chess.game.ChessView;
+import softeer2nd.chess.game.Command;
 
 public class Main {
 

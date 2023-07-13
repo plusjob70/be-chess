@@ -1,4 +1,4 @@
-package softeer2nd.chess;
+package softeer2nd.chess.game;
 
 import softeer2nd.chess.exceptions.BoardIndexOutOfRangeException;
 import softeer2nd.chess.exceptions.IllegalIndexExpressionException;

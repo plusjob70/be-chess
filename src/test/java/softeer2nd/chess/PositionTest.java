@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exceptions.BoardIndexOutOfRangeException;
 import softeer2nd.chess.exceptions.IllegalIndexExpressionException;
+import softeer2nd.chess.game.Position;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;

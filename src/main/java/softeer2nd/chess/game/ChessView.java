@@ -1,4 +1,4 @@
-package softeer2nd.chess;
+package softeer2nd.chess.game;
 
 import softeer2nd.chess.exceptions.IllegalInputException;
 
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import static softeer2nd.chess.Command.*;
-import static softeer2nd.chess.Position.EXPRESSION_POSITION;
+import static softeer2nd.chess.game.Command.*;
+import static softeer2nd.chess.game.Position.EXPRESSION_POSITION;
 import static softeer2nd.chess.utils.StringUtils.appendNewLine;
 
 /**

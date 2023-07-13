@@ -3,6 +3,9 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.game.Board;
+import softeer2nd.chess.game.ChessGame;
+import softeer2nd.chess.game.Position;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static softeer2nd.chess.pieces.PieceFactory.*;

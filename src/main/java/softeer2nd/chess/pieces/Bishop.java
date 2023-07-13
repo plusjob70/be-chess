@@ -1,6 +1,6 @@
 package softeer2nd.chess.pieces;
 
-import softeer2nd.chess.Position;
+import softeer2nd.chess.game.Position;
 import softeer2nd.chess.exceptions.IllegalMoveException;
 
 import static softeer2nd.chess.pieces.Piece.Type.BISHOP;

@@ -1,6 +1,6 @@
 package softeer2nd.chess.pieces;
 
-import softeer2nd.chess.Position;
+import softeer2nd.chess.game.Position;
 
 /**
  * 기물의 이동 경로를 검사하기 위한 클래스

@@ -3,8 +3,8 @@ package softeer2nd.chess.pieces;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.Board;
-import softeer2nd.chess.Position;
+import softeer2nd.chess.game.Board;
+import softeer2nd.chess.game.Position;
 
 import java.util.List;
 

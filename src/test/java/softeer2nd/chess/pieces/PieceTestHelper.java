@@ -1,8 +1,8 @@
 package softeer2nd.chess.pieces;
 
 import org.assertj.core.api.Assertions;
-import softeer2nd.chess.Board;
-import softeer2nd.chess.Position;
+import softeer2nd.chess.game.Board;
+import softeer2nd.chess.game.Position;
 import softeer2nd.chess.exceptions.IllegalMoveException;
 
 import java.util.ArrayList;
